@@ -1,0 +1,19 @@
+#+title: Arxiv Spider: Parse and Download HTML Source Codes.
+#+date: Sat Oct 19 18:53:54 2024
+#+author: Zi Liang
+#+email: zi1415926.liang@connect.polyu.hk
+#+latex_class: elegantpaper
+#+filetags: :doc:
+
+
+
+
+* Structure for the Targets
+
+** A spider to download Arxiv Articles under given URLs.
+SCHEDULED: <2024-10-21 Mon>
+- Rescheduled from "[2024-10-19 Sat]" on [2024-10-21 Mon 16:11]
+** An automatic tool to analyze and group similar works.
+** A benchmark generator to generate Questions and Answers based on the prompts.
+** A post-process and reviewing process.
+
