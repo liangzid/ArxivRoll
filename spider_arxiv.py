@@ -307,12 +307,74 @@ def queryArxiv(
     return ids
 
 
+def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
+    res_dict = {
+        "title": [],
+        "abstract": [],
+        "keywords": [],
+        "text": [],
+    }
+    for id_ in tqdm(id_ls):
+        download_url = f"https://arxiv.org/html/{id_}v1"
+        "https://arxiv.org/html/2410.13825v1"
+        try:
+            source = requests.get(download_url)
+            source.raise_for_status()
+            soup = BeautifulSoup(source.text, "html.parser")
+            papers = soup.find("article", class_="ltx_document")
+            title = papers.find(
+                "h1", class_="ltx_title ltx_title_document").text
+            title = title.split('"')[1]
+            abstract = papers.find("div", class_="ltx_abstract",)\
+                .find("p", class_="ltx_p").text
+            abstract = abstract.split('"')[1]
+            keywords = papers.find("div", class_="ltx_keywords").text
+            keywords = keywords.split("</button>")[1].split('"')[1]
+            if "; " in keywords:
+                keywords = keywords.split("; ")
+            elif ", " in keywords:
+                keywords = keywords.split(", ")
+            else:
+                keywords = [keywords]
+
+            maintextls = papers.find_all(
+                "section",
+                class_="ltx_section",
+            )
+            html_text = ""
+            for maintext in maintextls:
+                html_text += maintext.text
+
+            print("==================================================")
+            print(title)
+            print("==================================================")
+            print(abstract)
+            print("==================================================")
+            print(keywords)
+            print("==================================================")
+            print(html_text)
+            print("==================================================")
+            res_dict["title"].append(title)
+            res_dict["abstract"].append(abstract)
+            res_dict["keywords"].append(keywords)
+            res_dict["text"].append(html_text)
+            termOfUse()
+        except Exception as e:
+            print(f"Error: {e}.")
+
+    with open(save_path, 'w', encoding='utf8') as f:
+        json.dump(res_dict,
+                  f, ensure_ascii=False, indent=4)
+    print(f"Save DONE. Save to {save_path}.")
+
+
 def main():
 
     # url = "https://arxiv.org/list/cs.AI/recent?skip=0&show=2000"
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
-    ids = queryArxiv()
+    ids = queryArxiv(from_date="2024-09-01", until_date="2024-10-01")
+    downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
 
 
 # running entry
