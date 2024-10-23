@@ -11,23 +11,46 @@ SEARCHBYTITLE ---
 
 # ------------------------ Code --------------------------------------
 
-
-def findSimTitles(q, cls, topk, method="???"):
-    return 0
+import faiss
 
 
-def findSimAbs(q, cls, topk):
-    return 0
+def findSim(idx, embedls, topk):
+    # normalize all vectors
+    faiss.normalize_L2(embedls)
+
+    num, d = embedls.shape
+    # print(num,d)
+
+    # make index
+    anns_idxes = faiss.IndexFlatIP(d)
+    anns_idxes.add(embedls)
+
+    query = embedls[idx:idx+1]
+
+    Distances, Indexes = anns_idxes.search(query, topk)
+
+    print("Distance: ", Distances)
+    print("Indexes: ", Indexes)
+
+    Indexls=Indexes[0]
+    return Indexls
 
 
-def findSimKw(q, cls, topk):
-    return 0
+def main():
+    from Vectorize import getEmbed
+    text1 = "This is the first document."
+    text2 = "This is the second document."
+    text3 = "Hello world. This is the third document."
+    text4 = "Anyway This THis This This is the last document."
 
+    embeds = getEmbed([text1, text2, text3, text4])
+    # print(embeds)
+    # print(type(embeds))
 
-def findSimText(q, cls, topk):
-    return 0
+    idxes = findSim(0, embeds, 4)
 
 
 # running entry
 if __name__ == "__main__":
+    main()
     print("EVERYTHING DONE.")

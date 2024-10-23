@@ -25,21 +25,25 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def getEmbed(textls, method="tfidf"):
 
-    if method=="tfidf":
+    if method == "tfidf":
         vectors = TfidfVectorizer().fit_transform(textls)
-    elif method=="bert-large":
+        vectors = vectors.toarray().astype("float32")
+    elif method == "bert-large":
         vectors = TfidfVectorizer().fit_transform(textls)
         pass
 
     return vectors
 
-def _test_tfidf():
-    text1="This is the first document."
-    text2="This is the second document."
 
-    vectorizer=TfidfVectorizer().fit_transform([text1,text2])
-    cosine_sim=cosine_similarity(vectorizer[0:1],vectorizer[1:2])
+def _test_tfidf():
+    text1 = "This is the first document."
+    text2 = "This is the second document."
+
+    vectorizer = TfidfVectorizer().fit_transform([text1, text2])
+    print(vectorizer.shape)
+    cosine_sim = cosine_similarity(vectorizer[0:1], vectorizer[1:2])
     print(f"Cosine Similarity: {cosine_sim}")
+
 
 # running entry
 if __name__ == "__main__":

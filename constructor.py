@@ -14,11 +14,7 @@ Constructing Test Cases Automatically Based On the Arxiv Articles.
 # ------------------------ Code --------------------------------------
 
 # normal import
-from SearchBySomething import findSimTitles
-from SearchBySomething import findSimAbs
-from SearchBySomething import findSimKw
-from SearchBySomething import findSimText
-
+from SearchBySomething import findSim
 from Vectorize import getEmbed
 
 import json
@@ -57,7 +53,10 @@ def retrievalSimIndexes(pool_path: str, filters=["byText"],
     kwls = data["keywords"]
     textls = data["text"]
 
-    embed_titlels=getEmbed(textls=titlels,method=embed_method)
+    embed_titlels = getEmbed(textls=titlels, method=embed_method)
+    embed_absls = getEmbed(absls, embed_method)
+    embed_kwls = getEmbed(kwls, embed_method)
+    embed_textls = getEmbed(textls, embed_method)
 
     assert embed_method in EMBED_METHOD
 
@@ -69,10 +68,6 @@ def retrievalSimIndexes(pool_path: str, filters=["byText"],
 
     retrieval_candidate_dict = {}
     for i in range(len(titlels)):
-        title = titlels[i]
-        abs_ = absls[i]
-        kw = kwls[i]
-        text = textls[i]
 
         candidx_title = []
         candidx_abs = []
@@ -80,13 +75,13 @@ def retrievalSimIndexes(pool_path: str, filters=["byText"],
         candidx_text = []
 
         if "byTitle" in filters:
-            candidx_title = findSimTitles(title, titlels, numCand)
+            candidx_title = findSim(i, embed_titlels, numCand)
         if "byAbs" in filters:
-            candidx_abs = findSimAbs(abs_, absls, numCand)
+            candidx_abs = findSim(i, embed_absls, numCand)
         if "byKWls" in filters:
-            candidx_kw = findSimKw(kw, kwls, numCand)
+            candidx_kw = findSim(i, embed_kwls, numCand)
         if "byText" in filters:
-            candidx_text = findSimText(text, textls, numCand)
+            candidx_text = findSim(i, embed_textls, numCand)
 
         # intersect operation
         final_cand_idxls = intersect(
