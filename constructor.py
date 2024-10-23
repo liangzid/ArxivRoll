@@ -19,6 +19,8 @@ from SearchBySomething import findSimAbs
 from SearchBySomething import findSimKw
 from SearchBySomething import findSimText
 
+from Vectorize import getEmbed
+
 import json
 from typing import List, Tuple, Dict
 import random
@@ -31,6 +33,10 @@ METHOD_LS = [
     "byKWls",
     "byText",
 ]
+EMBED_METHOD = [
+    "tfidf",
+    "bert-large",
+]
 
 
 def intersect(lss: List[List[int]]):
@@ -38,10 +44,11 @@ def intersect(lss: List[List[int]]):
     return list(intersection)
 
 
-def generateTestCases(pool_path: str, filters=["byText"],
-                      TopK=3,
-                      temp_index_save_path=None
-                      ):
+def retrievalSimIndexes(pool_path: str, filters=["byText"],
+                        TopK=3,
+                        temp_index_save_path=None,
+                        embed_method="tfidf",
+                        ):
     with open(pool_path, 'r', encoding='utf8') as f:
         data = json.load(f, object_pairs_hook=OrderedDict)
 
@@ -49,6 +56,10 @@ def generateTestCases(pool_path: str, filters=["byText"],
     absls = data["abstract"]
     kwls = data["keywords"]
     textls = data["text"]
+
+    embed_titlels=getEmbed(textls=titlels,method=embed_method)
+
+    assert embed_method in EMBED_METHOD
 
     numCand = TopK*20
 
@@ -106,7 +117,7 @@ def generateTestCases(pool_path: str, filters=["byText"],
         json.dump(retrieval_candidate_dict,
                   f, ensure_ascii=False, indent=4)
     print(f"Save DONE. Save to {temp_index_save_path}.")
-    return data,retrieval_candidate_dict
+    return data, retrieval_candidate_dict
 
 
 # running entry

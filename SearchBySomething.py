@@ -12,7 +12,7 @@ SEARCHBYTITLE ---
 # ------------------------ Code --------------------------------------
 
 
-def findSimTitles(q, cls, topk):
+def findSimTitles(q, cls, topk, method="???"):
     return 0
 
 
