@@ -74,6 +74,8 @@ import random
 from typing import List, Tuple, Dict
 import json
 from tqdm import tqdm
+import fake_useragent # pip install fake-useragent
+from fake_useragent import UserAgent
 ARXIV_TAXONOMY_URL = "https://arxiv.org/category_taxonomy"
 
 # List of ArXiv subject classifications (sets) with comments
@@ -308,6 +310,7 @@ def queryArxiv(
 
 
 def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
+    ua = UserAgent()
     res_dict = {
         "title": [],
         "abstract": [],
@@ -318,7 +321,10 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
         download_url = f"https://arxiv.org/html/{id_}"
         # "https://arxiv.org/html/2410.13825v1"
         try:
-            source = requests.get(download_url)
+            source = requests.get(download_url,
+                                  headers={
+                                      "User-Agent": ua.random
+                                  })
             source.raise_for_status()
             soup = BeautifulSoup(source.text, "html.parser")
             papers = soup.find("article", class_="ltx_document")
@@ -379,6 +385,7 @@ def main():
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
     ids = queryArxiv(from_date="2024-09-01", until_date="2024-10-01")
+    ids = ids[:20]
     print(f"IDs: {ids}")
     downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
 
