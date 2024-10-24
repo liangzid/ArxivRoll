@@ -14,6 +14,36 @@ SEARCHBYTITLE ---
 import faiss
 
 
+def findSimCross(query_embeds, cand_embeds, topk):
+    """
+    the term `Cross` denotes that the user will provide two parameters,
+    the query and the candidates.
+    """
+    # WARN: NO UNIT TEST
+
+    # normalize all vectors
+    faiss.normalize_L2(query_embeds)
+    faiss.normalize_L2(cand_embeds)
+
+    numq, d = query_embeds.shape
+    numc, dc = cand_embeds.shape
+    assert dc == d
+    # print(num,d)
+
+    # make index
+    anns_idxes = faiss.IndexFlatIP(d)
+    anns_idxes.add(cand_embeds)
+
+    Distances, Indexes = anns_idxes.search(
+        query_embeds, topk)
+
+    print("Distance: ", Distances)
+    print("Indexes: ", Indexes)
+
+    # Indexls = Indexes[0]
+    return Indexes
+
+
 def findSim(idx, embedls, topk):
     # normalize all vectors
     faiss.normalize_L2(embedls)
@@ -32,7 +62,7 @@ def findSim(idx, embedls, topk):
     print("Distance: ", Distances)
     print("Indexes: ", Indexes)
 
-    Indexls=Indexes[0]
+    Indexls = Indexes[0]
     return Indexls
 
 

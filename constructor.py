@@ -14,8 +14,11 @@ Constructing Test Cases Automatically Based On the Arxiv Articles.
 # ------------------------ Code --------------------------------------
 
 # normal import
-from SearchBySomething import findSim
+from SearchBySomething import findSim, findSimCross
 from Vectorize import getEmbed
+from post_process_paper_text import paper2fragments as p2f
+from utils import random_take_one
+from utils import constructTestCase
 
 import json
 from typing import List, Tuple, Dict
@@ -35,16 +38,79 @@ EMBED_METHOD = [
 ]
 
 
+def retrievalFragments(
+        papers4Q,
+        papers4C,
+        save_path,
+        topk=3,
+        embed_method="tfidf",
+):
+    """
+    Given the papers used for query and the papers used for candidates,
+    the author will use them to create test cases.
+    """
+    n_gram = 1
+    minimal_char = 80
+    query_fragss = [p2f(x, n_gram, minimal_char)
+                    for x in papers4Q]
+    cand_fragss = [p2f(x, n_gram, minimal_char)
+                   for x in papers4C]
+    query_frags = [random_take_one(x, no_first=True)
+                   for x in query_fragss]
+    query_idxs, query_frags = zip(*query_frags)
+    cand_frags = []
+    for x in cand_fragss:
+        cand_frags.extend(x)
+
+    # Step 1: Begin the search process.
+
+    q_frags_embeds = getEmbed(query_frags, embed_method)
+    c_frags_embeds = getEmbed(cand_frags, embed_method)
+
+    candidate_idx = findSimCross(
+        q_frags_embeds,
+        c_frags_embeds,
+        topk,
+    )
+
+    # Step 2: Construct the test process
+    test_case_ls = []
+    for i in range(len(query_frags)):
+        context = query_fragss[i][query_idxs[i-1]]
+        true_ans = query_frags[i]
+        false_idx = candidate_idx[i]
+        false_anss = []
+        for fidx in false_idx:
+            acand = cand_frags[fidx]
+            false_anss.append(acand)
+
+        testCase = constructTestCase(
+            context,
+            true_ans,
+            false_anss,
+        )
+        test_case_ls.append(testCase)
+
+    # Step 3: save the task
+    with open(save_path,
+              'w', encoding='utf8') as f:
+        json.dump(test_case_ls,
+                  f, ensure_ascii=False, indent=4)
+    return test_case_ls
+
+
 def intersect(lss: List[List[int]]):
     intersection = set.intersection(*map(set, lss))
     return list(intersection)
 
 
-def retrievalSimIndexes(pool_path: str, filters=["byText"],
-                        TopK=3,
-                        temp_index_save_path=None,
-                        embed_method="tfidf",
-                        ):
+def retrievalSimIndexes(
+    pool_path: str,
+    filters=["byText"],
+    TopK=3,
+    temp_index_save_path=None,
+    embed_method="tfidf",
+):
     with open(pool_path, 'r', encoding='utf8') as f:
         data = json.load(f, object_pairs_hook=OrderedDict)
 
