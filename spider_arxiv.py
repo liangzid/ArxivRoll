@@ -395,7 +395,6 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
 
 
 def main():
-
     # url = "https://arxiv.org/list/cs.AI/recent?skip=0&show=2000"
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
@@ -405,7 +404,22 @@ def main():
     downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
 
 
+def main2():
+    print("Spider the corpus of the past ONE year.")
+    ids = []
+    for i in range(4, 11):
+        temp_ids = queryArxiv(
+            from_date=f"2024-0{i}-01",
+            until_date="2024-0{i}-30")
+        ids.extend(temp_ids)
+        termOfUse()
+
+    downloadArxivViaIds(
+        ids, save_path="./recent6months_saved_articles.json")
+
+
 # running entry
 if __name__ == "__main__":
-    main()
+    # main()
+    main2()
     print("EVERYTHING DONE.")

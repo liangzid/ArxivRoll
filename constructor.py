@@ -53,6 +53,7 @@ def retrievalFragments(
     minimal_char = 80
     query_fragss = [p2f(x, n_gram, minimal_char)
                     for x in papers4Q]
+    print(query_fragss[0])
     cand_fragss = [p2f(x, n_gram, minimal_char)
                    for x in papers4C]
     query_frags = [random_take_one(x, no_first=True)
@@ -82,6 +83,62 @@ def retrievalFragments(
         false_anss = []
         for fidx in false_idx:
             acand = cand_frags[fidx]
+            false_anss.append(acand)
+
+        testCase = constructTestCase(
+            context,
+            true_ans,
+            false_anss,
+        )
+        test_case_ls.append(testCase)
+
+    # Step 3: save the task
+    with open(save_path,
+              'w', encoding='utf8') as f:
+        json.dump(test_case_ls,
+                  f, ensure_ascii=False, indent=4)
+    return test_case_ls
+
+
+def retrievalFragments2Myself(
+        papers4Q,
+        save_path,
+        topk=3,
+        embed_method="tfidf",
+):
+    """
+    Retrieval within the articles.
+    """
+    n_gram = 1
+    minimal_char = 80
+    query_fragss = [p2f(x, n_gram, minimal_char)
+                    for x in papers4Q]
+    query_frags = [random_take_one(x, no_first=True)
+                   for x in query_fragss]
+    query_idxs, query_frags = zip(*query_frags)
+
+    # Step 1: Begin the search process.
+
+    # Step 2: Construct the test process
+    test_case_ls = []
+    for i in range(len(query_frags)):
+        query_idx = query_idxs[i]
+        q_frags_embeds = getEmbed(
+            query_fragss[i],
+            embed_method)
+        sim_idxes = findSim(
+            query_idx,
+            q_frags_embeds,
+            topk=topk+1,
+        )
+        context = query_fragss[i][query_idxs[i-1]]
+        true_ans = query_frags[i]
+        false_idx = sim_idxes
+        false_anss = []
+        for fidx in false_idx:
+            if fidx == query_idx:
+                continue
+            acand = query_fragss[i][fidx]
             false_anss.append(acand)
 
         testCase = constructTestCase(
