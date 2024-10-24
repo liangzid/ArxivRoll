@@ -184,7 +184,7 @@ ARXIV_CAT_SETS = [
 
 def termOfUse():
     # sleep three seconds to obey the term of use.
-    time.sleep(3.5)
+    time.sleep(10)
 
 
 def getArxivIDs(
@@ -317,6 +317,8 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
         "keywords": [],
         "text": [],
     }
+    total_num = len(id_ls)
+    hit_num = 0
     for id_ in tqdm(id_ls):
         download_url = f"https://arxiv.org/html/{id_}"
         # "https://arxiv.org/html/2410.13825v1"
@@ -329,24 +331,33 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
             soup = BeautifulSoup(source.text, "html.parser")
             papers = soup.find("article", class_="ltx_document")
             title = papers.find(
-                "h1", class_="ltx_title ltx_title_document").text
+                "h1", class_="ltx_title ltx_title_document")
+            # print("raw titile:", title)
+            title = title.text
             if '"' in title:
                 title = title.split('"')[1]
             abstract = papers.find("div", class_="ltx_abstract",)\
-                .find("p", class_="ltx_p").text
+                .find("p", class_="ltx_p")
+            abstract = abstract.text
+            # print("raw abstract:", abstract)
             if '"' in abstract:
                 abstract = abstract.split('"')[1]
-            keywords = papers.find("div", class_="ltx_keywords").text
-            if '</button>' in keywords:
-                keywords = keywords.split("</button>")[1]
-                if '"' in keywords:
-                    keywords = keywords.split('"')[1]
-            if "; " in keywords:
-                keywords = keywords.split("; ")
-            elif ", " in keywords:
-                keywords = keywords.split(", ")
+            keywords = papers.find("div", class_="ltx_keywords")
+            if keywords is not None:
+                # print("raw keyword:",keywords)
+                keywords = keywords.text
+                if '</button>' in keywords:
+                    keywords = keywords.split("</button>")[1]
+                    if '"' in keywords:
+                        keywords = keywords.split('"')[1]
+                if "; " in keywords:
+                    keywords = keywords.split("; ")
+                elif ", " in keywords:
+                    keywords = keywords.split(", ")
+                else:
+                    keywords = [keywords]
             else:
-                keywords = [keywords]
+                keywords = [""]
 
             maintextls = papers.find_all(
                 "section",
@@ -356,19 +367,21 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
             for maintext in maintextls:
                 html_text += maintext.text
 
-            print("==================================================")
-            print(title)
-            print("==================================================")
-            print(abstract)
-            print("==================================================")
-            print(keywords)
-            print("==================================================")
-            print(html_text)
-            print("==================================================")
+            # print("==================================================")
+            # print(title)
+            # print("==================================================")
+            # print(abstract)
+            # print("==================================================")
+            # print(keywords)
+            # print("==================================================")
+            # print(html_text)
+            # print("==================================================")
+
             res_dict["title"].append(title)
             res_dict["abstract"].append(abstract)
             res_dict["keywords"].append(keywords)
             res_dict["text"].append(html_text)
+            hit_num += 1
         except Exception as e:
             print(f"Error: {e}.")
         termOfUse()
@@ -376,6 +389,8 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
     with open(save_path, 'w', encoding='utf8') as f:
         json.dump(res_dict,
                   f, ensure_ascii=False, indent=4)
+    print(
+        f"NUMS THAT SUCCESSFULLLY SPIDERED: {hit_num}\nTOTAL NUM: {total_num}")
     print(f"Save DONE. Save to {save_path}.")
 
 
@@ -385,7 +400,7 @@ def main():
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
     ids = queryArxiv(from_date="2024-09-01", until_date="2024-10-01")
-    ids = ids[:20]
+    # ids = ids[:100]
     print(f"IDs: {ids}")
     downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
 
