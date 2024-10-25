@@ -410,7 +410,7 @@ def main2():
     for i in range(4, 11):
         temp_ids = queryArxiv(
             from_date=f"2024-0{i}-01",
-            until_date="2024-0{i}-30")
+            until_date=f"2024-0{i}-30")
         ids.extend(temp_ids)
         termOfUse()
 
