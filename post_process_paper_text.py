@@ -41,6 +41,7 @@ def paper2fragments(
     for i in range(len(paragraphs)//n_gram-1):
         sub_candidates = paragraphs[i*n_gram:(i+1)*n_gram]
         para_text = "\n".join(sub_candidates)
+        # print("Para Text: {}".format(para_text))
         if len(para_text) < minimal_char:
             pass
         else:

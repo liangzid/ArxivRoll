@@ -37,8 +37,8 @@ def findSimCross(query_embeds, cand_embeds, topk):
     Distances, Indexes = anns_idxes.search(
         query_embeds, topk)
 
-    print("Distance: ", Distances)
-    print("Indexes: ", Indexes)
+    # print("Distance: ", Distances)
+    # print("Indexes: ", Indexes)
 
     # Indexls = Indexes[0]
     return Indexes

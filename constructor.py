@@ -53,7 +53,6 @@ def retrievalFragments(
     minimal_char = 80
     query_fragss = [p2f(x, n_gram, minimal_char)
                     for x in papers4Q]
-    print(query_fragss[0])
     cand_fragss = [p2f(x, n_gram, minimal_char)
                    for x in papers4C]
     query_frags = [random_take_one(x, no_first=True)
@@ -113,6 +112,20 @@ def retrievalFragments2Myself(
     minimal_char = 80
     query_fragss = [p2f(x, n_gram, minimal_char)
                     for x in papers4Q]
+
+    # filter the empty papers.
+    new_query_fragss = []
+    # print(f"Min length in the list: {min([len(x) for x in query_fragss])}")
+    for i, x in enumerate(query_fragss):
+        if len(x) <= 2:
+            pass
+            # print(papers4Q[i])
+            # print(query_fragss[i])
+            # print("================================================")
+        else:
+            new_query_fragss.append(query_fragss[i])
+    query_fragss = new_query_fragss
+    # print(query_fragss[0])
     query_frags = [random_take_one(x, no_first=True)
                    for x in query_fragss]
     query_idxs, query_frags = zip(*query_frags)
@@ -131,7 +144,9 @@ def retrievalFragments2Myself(
             q_frags_embeds,
             topk=topk+1,
         )
-        context = query_fragss[i][query_idxs[i-1]]
+        # print(f"query index: {query_idxs[i]}")
+        # print(f"length of query_fraggs[i]: {len(query_fragss[i])}")
+        context = query_fragss[i][query_idxs[i]-1]
         true_ans = query_frags[i]
         false_idx = sim_idxes
         false_anss = []
@@ -153,6 +168,7 @@ def retrievalFragments2Myself(
               'w', encoding='utf8') as f:
         json.dump(test_case_ls,
                   f, ensure_ascii=False, indent=4)
+    print(f"Test Cases Save DONE. Save to {save_path}.")
     return test_case_ls
 
 

@@ -72,6 +72,6 @@ def constructTestCase(
     text_label = idx_Selection_map[label_idx]
 
     # 2. Serialization
-    Input = f"Instruction: {INSTRUCTION}\nContext: {context}\nChoice:A. {choices[0]}\nB. {choices[1]}\nC. {choices[2]}\nD. {choices[3]}"
+    Input = f"## Instruction:\n{INSTRUCTION}\n## Context:\n {context}\n## Choice:\n**A** {choices[0]}\n**B** {choices[1]}\n**C** {choices[2]}\n**D** {choices[3]}"
 
     return Input, text_label
