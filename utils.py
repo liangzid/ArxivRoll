@@ -75,3 +75,4 @@ def constructTestCase(
     Input = f"## Instruction:\n{INSTRUCTION}\n## Context:\n {context}\n## Choice:\n**A** {choices[0]}\n**B** {choices[1]}\n**C** {choices[2]}\n**D** {choices[3]}"
 
     return Input, text_label
+

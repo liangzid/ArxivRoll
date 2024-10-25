@@ -25,6 +25,10 @@ from typing import List, Tuple, Dict
 import random
 from pprint import pprint as ppp
 from collections import OrderedDict
+from datasets import load_dataset, Dataset
+import pandas as pd
+import os
+HFTOKEN = os.environ["HF_TOKEN"]
 
 METHOD_LS = [
     "byTitle",
@@ -102,12 +106,15 @@ def retrievalFragments(
 def retrievalFragments2Myself(
         papers4Q,
         save_path,
+        structure_data_save_path: str = None,
         topk=3,
         embed_method="tfidf",
 ):
     """
     Retrieval within the articles.
     """
+    if structure_data_save_path is None:
+        structure_data_save_path = save_path+"l"
     n_gram = 1
     minimal_char = 80
     query_fragss = [p2f(x, n_gram, minimal_char)
@@ -134,6 +141,7 @@ def retrievalFragments2Myself(
 
     # Step 2: Construct the test process
     test_case_ls = []
+    structure_data_ls = []
     for i in range(len(query_frags)):
         query_idx = query_idxs[i]
         q_frags_embeds = getEmbed(
@@ -156,6 +164,16 @@ def retrievalFragments2Myself(
             acand = query_fragss[i][fidx]
             false_anss.append(acand)
 
+        structure_data_ls.append(
+            {
+                "context": context,
+                "correct_answer": true_ans,
+                "distractor1": false_anss[0],
+                "distractor2": false_anss[1],
+                "distractor3": false_anss[2],
+            }
+        )
+
         testCase = constructTestCase(
             context,
             true_ans,
@@ -164,12 +182,33 @@ def retrievalFragments2Myself(
         test_case_ls.append(testCase)
 
     # Step 3: save the task
+    #        ------------Save to a JSONL file------------
+    with open(structure_data_save_path, 'w', encoding='utf8') as f:
+        for structure_data in structure_data_ls:
+            oneline = json.dumps(structure_data,
+                                 ensure_ascii=False)
+            f.write(oneline+"\n")
+    print(f"JSON FILE SAVE DONE. Save to {save_path}.")
+
     with open(save_path,
               'w', encoding='utf8') as f:
         json.dump(test_case_ls,
                   f, ensure_ascii=False, indent=4)
     print(f"Test Cases Save DONE. Save to {save_path}.")
     return test_case_ls
+
+
+def push2HF(testcase_json_pth,):
+    # first read the data
+    df = pd.read_json(testcase_json_pth,
+                      orient="records", lines=True)
+    dataset = Dataset.from_pandas(df)
+    # print(dataset[0])
+
+    # then push it to huggingface.
+    dataset.push_to_hub("liangzid/robench_2024b-test",
+                        token=HFTOKEN)
+    print("Push to huggignface DONE.")
 
 
 def intersect(lss: List[List[int]]):
