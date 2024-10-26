@@ -106,6 +106,7 @@ def retrievalFragments(
 def retrievalFragments2Myself(
         papers4Q,
         save_path,
+        structure_data_save_path_type2,
         structure_data_save_path: str = None,
         topk=3,
         embed_method="tfidf",
@@ -141,6 +142,7 @@ def retrievalFragments2Myself(
 
     # Step 2: Construct the test process
     test_case_ls = []
+    test_case_sam_structured = []
     structure_data_ls = []
     for i in range(len(query_frags)):
         query_idx = query_idxs[i]
@@ -180,11 +182,25 @@ def retrievalFragments2Myself(
             false_anss,
         )
         test_case_ls.append(testCase)
+        testCaseS = constructTestCase(
+            context,
+            true_ans,
+            false_anss,
+            if_strucutured=True,
+        )
+        test_case_sam_structured.append(testCaseS)
 
     # Step 3: save the task
     #        ------------Save to a JSONL file------------
     with open(structure_data_save_path, 'w', encoding='utf8') as f:
         for structure_data in structure_data_ls:
+            oneline = json.dumps(structure_data,
+                                 ensure_ascii=False)
+            f.write(oneline+"\n")
+    print(f"JSON FILE SAVE DONE. Save to {save_path}.")
+    with open(structure_data_save_path_type2,
+              'w', encoding='utf8') as f:
+        for structure_data in test_case_sam_structured:
             oneline = json.dumps(structure_data,
                                  ensure_ascii=False)
             f.write(oneline+"\n")
@@ -198,7 +214,7 @@ def retrievalFragments2Myself(
     return test_case_ls
 
 
-def push2HF(testcase_json_pth,):
+def push2HF(testcase_json_pth,name,):
     # first read the data
     df = pd.read_json(testcase_json_pth,
                       orient="records", lines=True)
@@ -206,7 +222,7 @@ def push2HF(testcase_json_pth,):
     # print(dataset[0])
 
     # then push it to huggingface.
-    dataset.push_to_hub("liangzid/robench_2024b-test",
+    dataset.push_to_hub(f"liangzid/{name}",
                         token=HFTOKEN)
     print("Push to huggignface DONE.")
 

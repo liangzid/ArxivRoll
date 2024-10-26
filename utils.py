@@ -46,6 +46,7 @@ def constructTestCase(
         true_answer,
         false_answers,
         instruction=None,
+        if_strucutured=False,
 ) -> (str, str):
 
     if instruction is None:
@@ -71,8 +72,17 @@ def constructTestCase(
 
     text_label = idx_Selection_map[label_idx]
 
-    # 2. Serialization
-    Input = f"## Instruction:\n{INSTRUCTION}\n## Context:\n {context}\n## Choice:\n**A** {choices[0]}\n**B** {choices[1]}\n**C** {choices[2]}\n**D** {choices[3]}"
+    if not if_strucutured:
+        # 2. Serialization
+        Input = f"## Instruction:\n{INSTRUCTION}\n## Context:\n {context}\n## Choice:\n**A** {choices[0]}\n**B** {choices[1]}\n**C** {choices[2]}\n**D** {choices[3]}"
 
-    return Input, text_label
-
+        return Input, text_label
+    else:
+        return {
+            "context": context,
+            "A": choices[0],
+            "B": choices[1],
+            "C": choices[2],
+            "D": choices[3],
+            "label": text_label,
+        }
