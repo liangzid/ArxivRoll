@@ -63,6 +63,7 @@ our permission.
 # normal import
 
 
+import os
 from datetime import datetime, timedelta
 import xml.etree.ElementTree as ET
 import time
@@ -405,7 +406,7 @@ def main():
 
 
 def main2():
-    print("Spider the corpus of the past ONE year.")
+    print("Spider the corpus of the past half of the year.")
     ids = []
     for i in range(4, 11):
         temp_ids = queryArxiv(
@@ -418,8 +419,40 @@ def main2():
         ids, save_path="./recent6months_saved_articles.json")
 
 
+def main3_allCategorys6Months():
+    print("Spider the among all categories corpus of the past ONE year.")
+    set_specs = [
+        "cs",
+        "econ",
+        "eess",
+        "math",
+        "physics",
+        "q-bio",
+        "q-fin",
+        "stat",
+    ]
+    save_dir = "./robench2024b_test_all_category/"
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    else:
+        pass
+    for set_spec in set_specs:
+        ids = []
+        for i in range(4, 10):
+            temp_ids = queryArxiv(
+                set_spec=set_spec,
+                from_date=f"2024-0{i}-01",
+                until_date=f"2024-0{i}-30")
+            ids.extend(temp_ids)
+            termOfUse()
+        save_pth = f"{save_dir}recent6months_html_set{set_spec}.json"
+        downloadArxivViaIds(
+            ids, save_path=save_pth)
+        pass
+
 # running entry
 if __name__ == "__main__":
     # main()
-    main2()
+    # main2()
+    main3_allCategorys6Months()
     print("EVERYTHING DONE.")
