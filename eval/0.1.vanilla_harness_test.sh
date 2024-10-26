@@ -1,0 +1,43 @@
+#!/bin/bash
+######################################################################
+#0.1.VANILLA_HARNESS_TEST ---
+
+# For Unit Test
+
+# Do not execute this file.
+
+# Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
+# Copyright © 2024, ZiLiang, all rights reserved.
+# Created: 26 October 2024
+######################################################################
+
+######################### Commentary ##################################
+##  
+######################################################################
+
+echo "HOME: ${HOME}"
+export python=${HOME}/anaconda3/envs/robench/bin/python3
+export TORCH_USE_CUDA_DSA="1"
+export root_dir="${HOME}/arxivSpider/eval/"
+export log_dir="${root_dir}/logs/"
+
+## set variables
+export log_path="${log_dir}1026_testlog.log"
+export device="1"
+export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+
+export model="meta-llama/Llama-3.1-8B-Instruct"
+
+lm_eval\
+    --model hf\
+    --model_args pretrained=${model}\
+    --tasks robench-2024b-testII\
+    --device cuda:${device}\
+    --verbosity DEBUG\
+    --log_samples\
+    --output_path ${log_path}
+
+
+
+echo "RUNNING 0.1.vanilla_harness_test.sh DONE."
+# 0.1.vanilla_harness_test.sh ends here
