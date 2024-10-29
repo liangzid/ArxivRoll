@@ -17,6 +17,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/robench/bin/python3
+source activate robench
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/logs/"

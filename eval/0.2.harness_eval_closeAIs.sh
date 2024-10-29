@@ -16,6 +16,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/robench/bin/python3
+source activate robench
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/logs/"
@@ -26,13 +27,17 @@ export device="1"
 # export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
 
 # export model="meta-llama/Llama-3.1-8B-Instruct"
-export model="gpt-4o"
+export model="gpt-4o-mini"
+# export task="robench-2024b-testII-gen"
+export task="tinyGSM8k"
+
 
     # --model openai-completions\
-lm_eval\
+proxychains lm_eval\
     --model openai-chat-completions\
     --model_args model=${model}\
-    --tasks robench-2024b-testII\
+    --apply_chat_template\
+    --tasks ${task}\
     --device cuda:${device}\
     --verbosity DEBUG\
     --log_samples\
