@@ -55,9 +55,9 @@ def main1():
 
     # print(cases[-1])
 
-    # Step 2: Push to Huggingface.
-    # testcase_path="testcases_pastonemonths.jsonl"
-    # push2HF(testcase_path,name="robench_2024b-test")
+    # # Step 2: Push to Huggingface.
+    # testcase_path = "testcases_pastonemonths.jsonl"
+    # push2HF(testcase_path, name="robench_2024b-test")
 
     # Step 2: Push to Huggingface.
     testcase_path = "testcases_pastonemonthsTYPE2.jsonl"

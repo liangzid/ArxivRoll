@@ -22,15 +22,19 @@ export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/logs/"
 
 ## set variables
-export log_path="${log_dir}1026_closeAI_res.log"
 export device="1"
 # export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
 
 # export model="meta-llama/Llama-3.1-8B-Instruct"
-export model="gpt-4o-mini"
-# export task="robench-2024b-testII-gen"
-export task="tinyGSM8k"
+# export model="gpt-4o"
+export models=("gpt-4o" "gpt-4" "gpt-3.5-turbo" "o1-preview")
+export model="o1-preview-2024-09-12"
+export task="robench-2024b-testII-gen"
+# export task="tinyGSM8k"
 
+export log_path="${log_dir}1026_closeAI_res{model}-----{task}.log"
+# this will raise an error, because lm_eval doesn't support o1 now.
+# now supported. But hte results is not that fullfilment.
 
     # --model openai-completions\
 proxychains lm_eval\
