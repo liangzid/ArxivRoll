@@ -28,7 +28,10 @@ export device="1"
 # export model="meta-llama/Llama-3.1-8B-Instruct"
 # export model="gpt-4o"
 export models=("gpt-4o" "gpt-4" "gpt-3.5-turbo" "o1-preview")
-export model="o1-preview-2024-09-12"
+# export model="o1-preview-2024-09-12"
+# export model="gpt-4o"
+# export model="gpt-4"
+export model="gpt-3.5-turbo"
 export task="robench-2024b-testII-gen"
 # export task="tinyGSM8k"
 

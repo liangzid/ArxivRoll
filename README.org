@@ -6,14 +6,51 @@
 #+filetags: :doc:
 
 
+* Environment
+
+Via pip:
+
+=pip install -r re.txt=
 
 
-* Structure for the Targets
+Or via conda:
 
-** A spider to download Arxiv Articles under given URLs.
-SCHEDULED: <2024-10-21 Mon>
-- Rescheduled from "[2024-10-19 Sat]" on [2024-10-21 Mon 16:11]
-** An automatic tool to analyze and group similar works.
-** A benchmark generator to generate Questions and Answers based on the prompts.
-** A post-process and reviewing process.
+=conda env create -f robench.yaml=
+
+
+* Explanation of Code Files:
+
++ =./1.run_vanilla_construct.py=: to construct private benchmark.
++ =constructor.py=: implementation of private benchmark construction methods.
++ =data=: directory of the project's data
+  + =./data/INSTRUCTION.py=: Instruction used for private benchmark's tasks.
++ =eval=: directory of performance evaluation scripts for LLMs
+  + =./eval/0.1.vanilla_harness_test.sh/= : evaluate Huggingface Open-source models.
+  + =./eval/0.2.harness_eval_closeAIs.sh/= : evaluate OpenAI's APIs.
++ =post_process_paper_text.py= : post process of the text of an article.
++ =SearchBySomething.py=: for retrieval.
++ =spider_arxiv.py=: download ArXiv atricles automatically.
++ =utils.py=: useful little functions.
++ =Vectorize.py=: transform a text into a representation for retrieval.
+
+
+* RUNNING
+
+
+** Download ArXiv Article
+
+=python spider_arxiv.py=
+
+
+** Construct Private Dataset
+
+=python 1.run_vanilla_construct.py=
+
+** Evaluate performances
+
+=bash ./eval/0.1.vanilla_harness_test.sh=
+
+=bash ./eval/0.2.harness_eval_closeAIs.sh=
+
+
 
