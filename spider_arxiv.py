@@ -77,6 +77,8 @@ import json
 from tqdm import tqdm
 import fake_useragent # pip install fake-useragent
 from fake_useragent import UserAgent
+import tarfile
+from latex_process import combine2ASimpleLatexFile
 ARXIV_TAXONOMY_URL = "https://arxiv.org/category_taxonomy"
 
 # List of ArXiv subject classifications (sets) with comments
@@ -224,17 +226,6 @@ def getArxivIDs(
     ids = [x.replace("arXiv:", "") for x in ids]
     print(f"parsed IDS: {ids}")
     return ids
-
-
-def htmlSourceSpider(
-        url,
-        fmt="html",
-        save_pth="./recent_papers",
-):
-
-    html = requests.get(url)
-
-    print(html.text)
 
 
 def queryArxiv(
@@ -395,14 +386,80 @@ def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
     print(f"Save DONE. Save to {save_path}.")
 
 
+def downloadArxivLatexByIds(
+        id_ls,
+        save_dir="./recent_save_latexs/",
+        save_json_in_dir="overalltex.json",
+):
+
+    latex_data_ls = []
+
+    # a fake user agent to bypass the block.
+    ua = UserAgent()
+
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
+
+    total_num = len(id_ls)
+    hit_num = 0
+    for id_ in tqdm(id_ls):
+        download_url = f"https://arxiv.org/src/{id_}"
+        # "https://arxiv.org/html/2410.13825v1"
+        try:
+
+            # Step 1: download file.
+            source = requests.get(download_url,
+                                  headers={
+                                      "User-Agent": ua.random
+                                  })
+            source.raise_for_status()
+            path_name = f"{save_dir}{id_}.tar.gz"
+            with open(path_name, "wb") as f:
+                f.write(source.content)
+            print(f"Download done for {path_name}.")
+
+            # Step 2: unzip it into a directory
+            directory_name = save_dir+id_
+            if not os.path.exists(directory_name):
+                os.mkdir(directory_name)
+            with tarfile.open(path_name, "r:gz") as tar:
+                tar.extractall(path=directory_name)
+            print("Extracting files...DONE.")
+
+            # Step 3: seeking for the latex.
+            latex_content = combine2ASimpleLatexFile(directory_name)
+            if latex_content is None:
+                continue
+            else:
+                latex_data_ls.append(latex_content)
+                pass
+            hit_num += 1
+        except Exception as e:
+            print(f"Error: {e}.")
+        termOfUse()
+
+    print(
+        f"NUMS THAT SUCCESSFULLLY SPIDERED: {hit_num}\nTOTAL NUM: {total_num}")
+
+    with open(save_dir+save_json_in_dir,
+              'w', encoding='utf8') as f:
+        json.dump(latex_data_ls, f, ensure_ascii=False, indent=4)
+    print("Save all tex-formatted source into JSON file DONE.")
+
+
 def main():
     # url = "https://arxiv.org/list/cs.AI/recent?skip=0&show=2000"
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
     ids = queryArxiv(from_date="2024-09-01", until_date="2024-10-01")
-    # ids = ids[:100]
+    ids = ids[:3]
     print(f"IDs: {ids}")
-    downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
+    # downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
+    downloadArxivLatexByIds(
+        ids,
+        save_dir="./past_one_months_cache/",
+        save_json_in_dir="overaltex.json",
+        )
 
 
 def main2():
@@ -453,7 +510,7 @@ def main3_allCategorys6Months():
 
 # running entry
 if __name__ == "__main__":
-    # main()
+    main()
     # main2()
-    main3_allCategorys6Months()
+    # main3_allCategorys6Months()
     print("EVERYTHING DONE.")
