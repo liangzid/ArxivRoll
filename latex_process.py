@@ -14,6 +14,7 @@ Candy for a latex project.
 # ------------------------ Code --------------------------------------
 import os
 from typing import List
+import gzip
 
 
 def combine2ASimpleLatexFile(directory_name):
@@ -28,21 +29,24 @@ def combine2ASimpleLatexFile(directory_name):
     ------------------------------------------------------------------
     """
     fnames = os.listdir(directory_name)
+    directory_name += "/"
 
     find_flag = 0
     find_name = None
     for x in fnames:
         if x.endswith(".tex"):
-            fine_name = x
+            find_name = x
             find_flag += 1
+    print("latex file nums:", find_flag)
     # Condition I: return None if no tex file
     if find_flag == 0:
         return None
     # Condition II:  return the content of a single file if there is
     # only one tex file
     if find_flag == 1:
-        fpth = directory_name+"/"+fine_name
-        with open(fpth, "r", encoding="utf8") as f:
+        fpth = directory_name+find_name
+        # print(fpth)
+        with open(fpth, "r", encoding="gbk") as f:
             lines = f.readlines()
         lines = _filterUselessLines(lines)
         return "\n".join(lines)
@@ -58,20 +62,45 @@ def combine2ASimpleLatexFile(directory_name):
                 main_file_name = fname
                 break
         if main_file_name is None:
+            print("Error: Cannot find the main file of current latex project.")
             return None
         # 2. compress to a single file.
-        fpth = directory_name+"/"+fine_name
+        fpth = directory_name+"/"+main_file_name
         with open(fpth, "r", encoding="utf8") as f:
             lines = f.readlines()
         lines = _filterUselessLines(lines)
         for fname in fnames:
             if fname == main_file_name:
                 continue
+            if not fname.endswith(".tex"):
+                continue
             head = fname.split(".")[0]
             lines = _insert_replace(lines, head, directory_name+fname)
         return "\n".join(lines)
 
     return None
+
+
+def isGzip(filepath):
+    with open(filepath, 'rb') as f:
+        header = f.read(2)
+        # print(f"Header: {header}.")
+        if header == b"\x1f\x8b":
+            try:
+                with gzip.open(filepath, 'rb') as gzf:
+                    peek = gzf.peek(512)
+                    if b"ustar" in peek or\
+                       b"00gnutar" in peek:
+                        return "tar.gz"
+                    else:
+                        return ".gz"
+            except (gzip.BadGzipFile, IOError):
+                print("Error: Bad GZip format.")
+                return ""
+        else:
+            print("Error: cannot find out hte gzip head.")
+            return ""
+    return ""
 
 
 def _insert_replace(lines, headname, fpath):

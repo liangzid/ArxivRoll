@@ -79,6 +79,9 @@ import fake_useragent # pip install fake-useragent
 from fake_useragent import UserAgent
 import tarfile
 from latex_process import combine2ASimpleLatexFile
+from latex_process import isGzip
+import gzip
+import shutil
 ARXIV_TAXONOMY_URL = "https://arxiv.org/category_taxonomy"
 
 # List of ArXiv subject classifications (sets) with comments
@@ -422,8 +425,20 @@ def downloadArxivLatexByIds(
             directory_name = save_dir+id_
             if not os.path.exists(directory_name):
                 os.mkdir(directory_name)
-            with tarfile.open(path_name, "r:gz") as tar:
-                tar.extractall(path=directory_name)
+
+            filetype = isGzip(path_name)
+            if filetype == "":
+                continue
+            elif filetype == "tar.gz":
+                with tarfile.open(path_name, "r:gz") as tar:
+                    tar.extractall(path=directory_name)
+            elif filetype == ".gz":
+                with gzip.open(path_name, "rb") as f_in:
+                    with open(
+                            directory_name+"/main.tex",
+                            "wb"
+                    ) as f_out:
+                        shutil.copyfileobj(f_in, f_out)
             print("Extracting files...DONE.")
 
             # Step 3: seeking for the latex.
@@ -452,14 +467,14 @@ def main():
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
     ids = queryArxiv(from_date="2024-09-01", until_date="2024-10-01")
-    ids = ids[:3]
+    ids = ids[2:3]
     print(f"IDs: {ids}")
     # downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
     downloadArxivLatexByIds(
         ids,
         save_dir="./past_one_months_cache/",
         save_json_in_dir="overaltex.json",
-        )
+    )
 
 
 def main2():
