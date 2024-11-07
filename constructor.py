@@ -113,13 +113,15 @@ def constructBenchmarksSCP(
         minimal_char=80,
 ) -> List[Dict[str, str]]:
     datals = []
-    for paper in tqdm(papers4Q,desc="Paper Processing:"):
+    for paper in tqdm(papers4Q, desc="Paper Processing:"):
         i = 0
         while i < 1000:
             testcase = SCP(paper, scp_type, n_gram, minimal_char)
             if testcase is not None:
                 break
             i += 1
+        if testcase is None:
+            continue
         datals.append(testcase)
 
     with open(hf_style_save_path,
