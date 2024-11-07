@@ -33,7 +33,7 @@ from utils import constructClozeTestCase
 def SCP(
         paper: str, scp_type: str,
         n_gram=1, minimal_char=80,
-) -> Optional[Dict[str, str], None]:
+) -> Optional[Dict[str, str]]:
     """
     ------------------------------------------------------------------
     core function to generate test cases from a paper string.
@@ -100,7 +100,7 @@ def SCP(
 
         # first split into several sub-sentences
         gram_sents = gram.split(split_symbol)
-        if len(gram_sents) < num_rerank_parts:
+        if len(gram_sents) < num_cloze*2:
             return None
         selected_idxes = np.random.choice(
             list(range(len(gram_sents))),

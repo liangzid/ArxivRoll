@@ -186,19 +186,19 @@ def constructClozeTestCase(
 
     # finally shuffle the selections:
     choices = [correct_ans, distractor1, distractor2, distractor3]
-    random.shuffle(choices)
-
+    choices_shuffledidx = list(range(4))
+    random.shuffle(choices_shuffledidx)
     label_idx = -1
-    for i, x in enumerate(choices):
-        if x == correct_ans:
+    for i, x in enumerate(choices_shuffledidx):
+        if x == 0:
             label_idx = i
     return {
         "text_with_holes": text_with_holes,
         "text_candidates": text_candidates,
-        "Selection 1": choices[0],
-        "Selection 2": choices[1],
-        "Selection 3": choices[2],
-        "Selection 4": choices[3],
+        "Selection 1": choices[choices_shuffledidx[0]],
+        "Selection 2": choices[choices_shuffledidx[1]],
+        "Selection 3": choices[choices_shuffledidx[2]],
+        "Selection 4": choices[choices_shuffledidx[3]],
         "label": f"Selection {label_idx+1}",
     }
 
@@ -227,7 +227,7 @@ def constructSequencingTestCase(
     # serialize of the `Input`:
     overall_text = ""
     for i, idx in enumerate(shuffled_idx):
-        overall_text += f"**{idx_Letter_map[i]}: **" +\
+        overall_text += f"**{idx_Letter_map[i]}**: " +\
             f"{grams[idx]}"
     correct_ans = ""
     for idx in shuffled_idx:
