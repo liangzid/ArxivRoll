@@ -27,6 +27,7 @@ from Vectorize import getEmbed
 from SearchBySomething import findSim
 from utils import constructTestCase
 from utils import constructSequencingTestCase
+from utils import constructClozeTestCase
 
 
 def SCP(
@@ -94,7 +95,22 @@ def SCP(
             constructed_grams,
         )
     elif scp_type == "c":
-        pass
+        num_cloze = 3
+        split_symbol = ". "
+
+        # first split into several sub-sentences
+        gram_sents = gram.split(split_symbol)
+        if len(gram_sents) < num_rerank_parts:
+            return None
+        selected_idxes = np.random.choice(
+            list(range(len(gram_sents))),
+            num_cloze,
+            replace=False,
+        )
+        testCase = constructClozeTestCase(
+            selected_idxes,
+            gram_sents,
+        )
     elif scp_type == "p":
         embed_method = "tfidf"
         q_embeds = getEmbed(
@@ -117,6 +133,8 @@ def SCP(
             false_anss,
             if_strucutured=True
         )
+    else:
+        return None
     return testCase
 
 
