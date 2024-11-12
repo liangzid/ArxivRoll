@@ -195,10 +195,10 @@ def constructClozeTestCase(
     return {
         "text_with_holes": text_with_holes,
         "text_candidates": text_candidates,
-        "Selection 1": choices[choices_shuffledidx[0]],
-        "Selection 2": choices[choices_shuffledidx[1]],
-        "Selection 3": choices[choices_shuffledidx[2]],
-        "Selection 4": choices[choices_shuffledidx[3]],
+        "A": choices[choices_shuffledidx[0]],
+        "B": choices[choices_shuffledidx[1]],
+        "C": choices[choices_shuffledidx[2]],
+        "D": choices[choices_shuffledidx[3]],
         "label": f"Selection {label_idx+1}",
     }
 
@@ -259,15 +259,17 @@ def constructSequencingTestCase(
     choices = [correct_ans, distractor1, distractor2, distractor3]
     random.shuffle(choices)
 
+    labells = ["Selection 1", "Selection 2", "Selection 3", "Selection 4",]
+
     label_idx = -1
     for i, x in enumerate(choices):
         if x == correct_ans:
             label_idx = i
     return {
         "shuffled_text": overall_text,
-        "Selection 1": choices[0],
-        "Selection 2": choices[1],
-        "Selection 3": choices[2],
-        "Selection 4": choices[3],
-        "label": f"Selection {label_idx+1}",
+        "A": choices[0],
+        "B": choices[1],
+        "C": choices[2],
+        "D": choices[3],
+        "label": labells[label_idx],
     }

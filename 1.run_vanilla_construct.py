@@ -57,7 +57,7 @@ def test_SCP_S():
         data = json.load(f, object_pairs_hook=OrderedDict)
     papers = data["text"]
     print(f"All paper Number: {len(papers)}")
-    
+
     # from_pth = "./past_one_months_cache/overaltex.json"
     # with open(from_pth,
     #           'r', encoding='utf8') as f:
@@ -72,7 +72,7 @@ def test_SCP_S():
     #     scp_type="s",
     #     n_gram=2,
     #     minimal_char=250,
-    #     )
+    # )
 
     # # Step 2: Push to Huggingface.
     # testcase_path = "past_one_month_latex_hf_SCP_s.jsonl"
@@ -85,7 +85,7 @@ def test_SCP_S():
         scp_type="c",
         n_gram=5,
         minimal_char=400,
-        )
+    )
 
     # Step 2: Push to Huggingface.
     testcase_path = "past_one_month_latex_hf_SCP_c.jsonl"
@@ -98,7 +98,7 @@ def test_SCP_S():
     #     scp_type="p",
     #     n_gram=1,
     #     minimal_char=100,
-    #     )
+    # )
 
     # # Step 2: Push to Huggingface.
     # testcase_path = "past_one_month_latex_hf_SCP_p.jsonl"

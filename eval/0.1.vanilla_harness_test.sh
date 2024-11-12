@@ -11,7 +11,7 @@
 # Created: 26 October 2024
 ######################################################################
 
-######################### Commentary ##################################
+######################### Commentary #################################
 ##  
 ######################################################################
 
@@ -30,7 +30,8 @@ export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Q
 # export model="01-ai/Yi-1.5-34B-Chat"
 export device="6"
 export model="meta-llama/Llama-3.1-8B-Instruct"
-export task="robench-2024b-testII-gen"
+# export task="robench-2024b-testII-gen"
+export task="robench-2024b-testIII-scp-p"
 export log_path="${log_dir}1026_testlog${model}${task}.log"
 
 lm_eval\
