@@ -142,7 +142,7 @@ def parseCompRes(
         temp_std_ls = []
         res_model_dict[model] = {}
         for task in dataset_ls:
-            log_pth = parsed_log_dir+str(model)+str(task)
+            log_pth = parsed_log_dir+str(model).replace("/", "__")
             files = os.listdir(log_pth)
             find_flag = 0
             for fi in files:
@@ -185,6 +185,5 @@ def parseCompRes(
     print("---------------------------------------------------------")
 
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
