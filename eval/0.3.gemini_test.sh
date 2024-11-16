@@ -1,8 +1,10 @@
 #!/bin/bash
 ######################################################################
-#0.2.HARNESS_EVAL_CLOSEAIS ---
+#0.1.VANILLA_HARNESS_TEST ---
 
-# test the efficacy of close AIs.
+# For Unit Test
+
+# Do not execute this file.
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
@@ -13,7 +15,6 @@
 ##  
 ######################################################################
 
-
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/robench/bin/python3
 source activate robench
@@ -22,29 +23,23 @@ export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/logs/"
 
 ## set variables
-export device="1"
+# export device="1"
 # export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+# export llm_ls=("Qwen/Qwen2.5-72B-Instruct" "01-ai/Yi-1.5-34B-Chat" "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "meta-llama/Llama-3.1-70B-Instruct")
 
-# export model="meta-llama/Llama-3.1-8B-Instruct"
-# export model="gpt-4o"
-export models=("gpt-4o" "gpt-4" "gpt-3.5-turbo" "o1-preview")
-# export model="o1-preview-2024-09-12"
-# export model="gpt-4o"
-# export model="gpt-4"
-export model="gpt-3.5-turbo"
+# export model="01-ai/Yi-1.5-34B-Chat"
+# export model="nvidia/Llama-3.1-Nemotron-70B-Instruct-HF"
+export model_ls=("gemini-1.5-flash" "gemini-1.5-proco")
+export model= "gemini-1.5-flash"
+export device="auto"
 export task="robench-2024b-testII-gen"
-# export task="tinyGSM8k"
+export log_path="${log_dir}1026_testlog${model}${task}.log"
 
-export log_path="${log_dir}1026_closeAI_res{model}-----{task}.log"
-# this will raise an error, because lm_eval doesn't support o1 now.
-# now supported. But hte results is not that fullfilment.
-
-    # --model openai-completions\
-    # --device cuda:${device}\
-proxychains lm_eval\
-    --model openai-chat-completions\
-    --model_args model=${model}\
-    --apply_chat_template\
+    #--device ${device}\
+    #,num_processes=4
+lm_eval\
+    --model api\
+    --model_args pretrained=${model},parallelize=True\
     --tasks ${task}\
     --verbosity DEBUG\
     --log_samples\
@@ -52,5 +47,5 @@ proxychains lm_eval\
 
 
 
-echo "RUNNING 0.2.harness_eval_closeAIs.sh DONE."
-# 0.2.harness_eval_closeAIs.sh ends here
+echo "RUNNING 0.3.gemini_test.sh DONE."
+# 0.1.vanilla_harness_test.sh ends here
