@@ -28,6 +28,8 @@ from collections import OrderedDict
 from datasets import load_dataset, Dataset
 import pandas as pd
 import os
+from scp import SCP
+from tqdm import tqdm
 HFTOKEN = os.environ["HF_TOKEN"]
 
 METHOD_LS = [
@@ -103,6 +105,35 @@ def retrievalFragments(
     return test_case_ls
 
 
+def constructBenchmarksSCP(
+        papers4Q: List[str],
+        hf_style_save_path: str = None,
+        scp_type="p",
+        n_gram=1,
+        minimal_char=80,
+) -> List[Dict[str, str]]:
+    datals = []
+    for paper in tqdm(papers4Q, desc="Paper Processing:"):
+        i = 0
+        while i < 1000:
+            testcase = SCP(paper, scp_type, n_gram, minimal_char)
+            if testcase is not None:
+                break
+            i += 1
+        if testcase is None:
+            continue
+        datals.append(testcase)
+
+    with open(hf_style_save_path,
+              'w', encoding='utf8') as f:
+        for data in datals:
+            oneline = json.dumps(data,
+                                 ensure_ascii=False)
+            f.write(oneline+"\n")
+    print(f"JSON FILE SAVE DONE. Save to {hf_style_save_path}.")
+    return datals
+
+
 def retrievalFragments2Myself(
         papers4Q,
         save_path,
@@ -114,10 +145,11 @@ def retrievalFragments2Myself(
     """
     Retrieval within the articles.
     """
+    print("WARNING: this function is outdated. Use `constructBenchmarkSCP`.")
     if structure_data_save_path is None:
         structure_data_save_path = save_path+"l"
-    n_gram = 1
-    minimal_char = 80
+    n_gram = 4
+    minimal_char = 250
     query_fragss = [p2f(x, n_gram, minimal_char)
                     for x in papers4Q]
 
@@ -214,7 +246,7 @@ def retrievalFragments2Myself(
     return test_case_ls
 
 
-def push2HF(testcase_json_pth,name,):
+def push2HF(testcase_json_pth, name,):
     # first read the data
     df = pd.read_json(testcase_json_pth,
                       orient="records", lines=True)

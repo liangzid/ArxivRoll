@@ -11,7 +11,7 @@
 # Created: 26 October 2024
 ######################################################################
 
-######################### Commentary ##################################
+######################### Commentary #################################
 ##  
 ######################################################################
 
@@ -27,10 +27,11 @@ export log_dir="${root_dir}/logs/"
 export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
 # export llm_ls=("Qwen/Qwen2.5-72B-Instruct" "01-ai/Yi-1.5-34B-Chat" "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "meta-llama/Llama-3.1-70B-Instruct")
 
-export model="01-ai/Yi-1.5-34B-Chat"
-# export model="nvidia/Llama-3.1-Nemotron-70B-Instruct-HF"
-export device="auto"
-export task="robench-2024b-testII-gen"
+# export model="01-ai/Yi-1.5-34B-Chat"
+export device="6"
+export model="meta-llama/Llama-3.1-8B-Instruct"
+# export task="robench-2024b-testII-gen"
+export task="robench-2024b-testIII-scp-p"
 export log_path="${log_dir}1026_testlog${model}${task}.log"
 
     #--device ${device}\

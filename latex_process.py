@@ -46,8 +46,16 @@ def combine2ASimpleLatexFile(directory_name):
     if find_flag == 1:
         fpth = directory_name+find_name
         # print(fpth)
-        with open(fpth, "r", encoding="gbk") as f:
-            lines = f.readlines()
+        try:
+            with open(fpth, "r", encoding="gbk") as f:
+                lines = f.readlines()
+        except Exception as ee:
+            print(f"ee: {ee}.")
+            try:
+                with open(fpth, "r", encoding="utf8") as f:
+                    lines = f.readlines()
+            except Exception as e:
+                raise e
         lines = _filterUselessLines(lines)
         return "\n".join(lines)
     # Condition III: combine different tex file into a single file.

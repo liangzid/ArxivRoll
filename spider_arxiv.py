@@ -467,7 +467,7 @@ def main():
     # htmlSourceSpider(url)
     # ids = getArxivIDs()
     ids = queryArxiv(from_date="2024-09-01", until_date="2024-10-01")
-    ids = ids[2:3]
+    # ids = ids[2:3]
     print(f"IDs: {ids}")
     # downloadArxivViaIds(ids, save_path="./recent_save_articles.json")
     downloadArxivLatexByIds(
