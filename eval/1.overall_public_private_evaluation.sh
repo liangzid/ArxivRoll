@@ -62,11 +62,36 @@ export task_ls=("mmlu_pro_computer_science"\
 		"mmlu_humanities"\
 		"mmlu_college_chemistry"\
 		"mmlu_high_school_chemistry"\
-"mmlu_high_school_geography"
+"mmlu_high_school_geography"\
+
+"liangzid/robench2024b_all_setcsSCP-s"\
+"liangzid/robench2024b_all_setcsSCP-c"\
+"liangzid/robench2024b_all_setcsSCP-p"\
+"liangzid/robench2024b_all_setq-finSCP-s"\
+"liangzid/robench2024b_all_setq-finSCP-c"\
+"liangzid/robench2024b_all_setq-finSCP-p"\
+"liangzid/robench2024b_all_setmathSCP-s"\
+"liangzid/robench2024b_all_setmathSCP-c"\
+"liangzid/robench2024b_all_setmathSCP-p"\
+"liangzid/robench2024b_all_seteecsSCP-s"\
+"liangzid/robench2024b_all_seteecsSCP-c"\
+"liangzid/robench2024b_all_seteecsSCP-p"\
+"liangzid/robench2024b_all_setphysicsSCP-s"\
+"liangzid/robench2024b_all_setphysicsSCP-c"\
+"liangzid/robench2024b_all_setphysicsSCP-p"\
+"liangzid/robench2024b_all_setstatSCP-s"\
+"liangzid/robench2024b_all_setstatSCP-c"\
+"liangzid/robench2024b_all_setstatSCP-p"\
+"liangzid/robench2024b_all_setq-bioSCP-s"\
+"liangzid/robench2024b_all_setq-bioSCP-c"\
+"liangzid/robench2024b_all_setq-bioSCP-p"\
+"liangzid/robench2024b_all_seteconSCP-s"\
+"liangzid/robench2024b_all_seteconSCP-c"\
+"liangzid/robench2024b_all_seteconSCP-p"
 )
 
-export task_ls=("mmlu_pro_computer_science")
-export model_ls=("meta-llama/Llama-3.1-8B-Instruct")
+# export task_ls=("mmlu_pro_computer_science")
+# export model_ls=("meta-llama/Llama-3.1-8B-Instruct")
 
 export device="3"
 export log_path="${log_dir}${model}${task}"
