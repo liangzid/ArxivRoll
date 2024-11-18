@@ -1,10 +1,10 @@
 #!/bin/bash
 ######################################################################
-#1.OVERALL_PUBLIC_PRIVATE_EVALUATION --- 
+#1.1.OVERALL_70B_MODELS --- 
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
-# Created: 13 November 2024
+# Created: 18 November 2024
 ######################################################################
 
 ######################### Commentary ##################################
@@ -18,8 +18,7 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/RES_OPENSOURCE/"
 
-export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
-# export llm_ls=("Qwen/Qwen2.5-72B-Instruct" "01-ai/Yi-1.5-34B-Chat" "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "meta-llama/Llama-3.1-70B-Instruct")
+export model_ls=("Qwen/Qwen2.5-72B-Instruct" "01-ai/Yi-1.5-34B-Chat" "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "meta-llama/Llama-3.1-70B-Instruct")
 
 export task_ls=("mmlu_pro_computer_science"\
 		    "mmlu_college_computer_science" "mmlu_computer_security"\
@@ -91,9 +90,10 @@ export task_ls=("mmlu_pro_computer_science"\
 )
 
 # export task_ls=("mmlu_pro_computer_science")
-# export model_ls=("meta-llama/Llama-3.1-8B-Instruct")
+# export model_ls=("Qwen/Qwen2.5-72B-Instruct")
 
-export device="3"
+
+export CUDA_VISIBLE_DEVICES=0,1,2
 
 for model in ${model_ls[*]}
 do
@@ -105,9 +105,8 @@ do
 
 	lm_eval\
 	    --model hf\
-	    --model_args pretrained=${model}\
+	    --model_args pretrained=${model},parallelize=True\
 	    --tasks ${task}\
-	    --device cuda:${device}\
 	    --verbosity DEBUG\
 	    --log_samples\
 	    --output_path ${log_path}
@@ -115,5 +114,6 @@ do
 done
 
 
-echo "RUNNING 1.overall_public_private_evaluation.sh DONE."
-# 1.overall_public_private_evaluation.sh ends here
+
+echo "RUNNING 1.1.overall_70b_models.sh DONE."
+# 1.1.overall_70b_models.sh ends here
