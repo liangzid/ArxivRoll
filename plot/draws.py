@@ -24,18 +24,19 @@ from matplotlib import pyplot as plt
 
 def draw_pieChart(data_ls,labels,save_pth):
     sizes=data_ls
-    colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']  # 自定义颜色
-    explode = (0.1, 0, 0, 0)  # 突出显示第一个饼图部分
+    # colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']  # 自定义颜色
+    explode = (0.1, 0, 0, 0, 0, 0, 0, 0)  # 突出显示第一个饼图部分
 
     # 绘制饼图
-    plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+    plt.pie(sizes, explode=explode, labels=labels,
+            # colors=colors,
             autopct='%1.1f%%', shadow=True, startangle=140)
 
     # 确保饼图是圆形的
     plt.axis('equal')
 
     # 添加标题
-    plt.title('美化的饼图示例')
+    # plt.title('美化的饼图示例')
 
     # 显示图例
     plt.legend(labels, loc="best", bbox_to_anchor=(1, 0, 0.5, 1))

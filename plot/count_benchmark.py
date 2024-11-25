@@ -34,9 +34,9 @@ def obtain_statistic_info():
         "robench2024b_all_setmathSCP-s",
         "robench2024b_all_setmathSCP-c",
         "robench2024b_all_setmathSCP-p",
-        "robench2024b_all_seteecsSCP-s",
-        "robench2024b_all_seteecsSCP-c",
-        "robench2024b_all_seteecsSCP-p",
+        "robench2024b_all_seteessSCP-s",
+        "robench2024b_all_seteessSCP-c",
+        "robench2024b_all_seteessSCP-p",
         "robench2024b_all_setphysicsSCP-s",
         "robench2024b_all_setphysicsSCP-c",
         "robench2024b_all_setphysicsSCP-p",
@@ -50,6 +50,9 @@ def obtain_statistic_info():
         "robench2024b_all_seteconSCP-c",
         "robench2024b_all_seteconSCP-p",
     ]
+    private_benchmark_ls = [
+        "liangzid/"+x for x in private_benchmark_ls
+        ]
     overalldict = {}
 
     for private_bench in private_benchmark_ls:
@@ -61,7 +64,7 @@ def obtain_statistic_info():
         "cs",
         "q-fin",
         "math",
-        "eecs",
+        "eess",
         "physics",
         "stat",
         "q-bio",
@@ -71,7 +74,7 @@ def obtain_statistic_info():
         "CS",
         "Q-Fin",
         "Math",
-        "EEcs",
+        "EEss",
         "Physics",
         "Stat",
         "Q-Bio",
@@ -83,7 +86,7 @@ def obtain_statistic_info():
     for scptype in ["s","c","p"]:
         cate_sample_num_ls=[]
         for cate in category_ls:
-            keyname=f"robench2024b_all_set{cate}SCP-{scptype}"
+            keyname=f"liangzid/robench2024b_all_set{cate}SCP-{scptype}"
             datadict=overalldict[keyname]
             key1=list(datadict.keys())[0]
             num=datadict[key1]["num"]
@@ -101,9 +104,10 @@ def obtain_statistic_info():
 
 
 def getStat(dataset_name, scp_type="s"):
+    print(f"dataset name: {dataset_name}")
     dataset = load_dataset(
         dataset_name,
-        "train",
+        split="train",
     )
     if scp_type == "s":
         shuffled_text = dataset["shuffled_text"]
@@ -162,4 +166,5 @@ def _getLen(textls):
 ## running entry
 if __name__ == "__main__":
     # main()
+    obtain_statistic_info()
     print("EVERYTHING DONE.")
