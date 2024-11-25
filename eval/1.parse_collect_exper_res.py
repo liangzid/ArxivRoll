@@ -24,10 +24,10 @@ from collections import OrderedDict
 
 def main():
     model_ls = ["EleutherAI/gpt-j-6B",
-                "microsoft/Phi-3.5-mini-instruct",
-                "Qwen/Qwen2-7B-Instruct",
-                "meta-llama/Meta-Llama-3-8B",
-                "meta-llama/Llama-3.1-8B-Instruct"
+                #"microsoft/Phi-3.5-mini-instruct",
+                #"Qwen/Qwen2-7B-Instruct",
+                #"meta-llama/Meta-Llama-3-8B",
+                #"meta-llama/Llama-3.1-8B-Instruct"
                 ]
 
     private_public_align_dict = {
@@ -108,8 +108,8 @@ def main():
         "mmlu_humanities",
 
         "mmlu_college_chemistry",
-        "mmlu_high_school_chemistry",
-        "mmlu_high_school_geography",
+        # "mmlu_high_school_chemistry",
+        # "mmlu_high_school_geography",
     ]
 
     unmatched_private_benchmarks = [
@@ -122,9 +122,43 @@ def main():
     overall_dataset_ls.extend(unmatched_public_benchmarks)
     overall_dataset_ls.extend(unmatched_private_benchmarks)
 
-    model_ls = ["meta-llama/Llama-3.1-8B-Instruct",]
-    overall_dataset_ls = ["mmlu_pro_computer_science"]
     parseCompRes(model_ls, overall_dataset_ls,)
+
+def main2():
+    model_ls=[
+        # "EleutherAI/gpt-j-6B", "microsoft/Phi-3.5-mini-instruct", "Qwen/Qwen2-7B-Instruct" ,
+        "meta-llama/Meta-Llama-3-8B",
+        "meta-llama/Llama-3.1-8B-Instruct",
+    ]
+    private_benchmark_ls=[
+        "robench2024b_all_setcsSCP-s", \
+"robench2024b_all_setcsSCP-c", \
+"robench2024b_all_setcsSCP-p", \
+"robench2024b_all_setq-finSCP-s", \
+"robench2024b_all_setq-finSCP-c", \
+"robench2024b_all_setq-finSCP-p", \
+"robench2024b_all_setmathSCP-s", \
+"robench2024b_all_setmathSCP-c", \
+"robench2024b_all_setmathSCP-p", \
+# "robench2024b_all_seteecsSCP-s", \
+# "robench2024b_all_seteecsSCP-c", \
+# "robench2024b_all_seteecsSCP-p", \
+"robench2024b_all_setphysicsSCP-s", \
+"robench2024b_all_setphysicsSCP-c", \
+"robench2024b_all_setphysicsSCP-p", \
+"robench2024b_all_setstatSCP-s", \
+"robench2024b_all_setstatSCP-c", \
+"robench2024b_all_setstatSCP-p", \
+"robench2024b_all_setq-bioSCP-s", \
+"robench2024b_all_setq-bioSCP-c", \
+"robench2024b_all_setq-bioSCP-p", \
+# "robench2024b_all_seteconSCP-s", \
+"robench2024b_all_seteconSCP-c", \
+"robench2024b_all_seteconSCP-p",
+    ]
+
+
+    parseCompRes(model_ls, private_benchmark_ls,result_save_pth="private_overall_res.json",)
 
 
 def parseCompRes(
@@ -142,10 +176,11 @@ def parseCompRes(
         temp_std_ls = []
         res_model_dict[model] = {}
         for task in dataset_ls:
-            log_pth = parsed_log_dir+str(model).replace("/", "__")
+            log_pth = parsed_log_dir+str(model)+task+f"/"+model.replace("/","__")
             files = os.listdir(log_pth)
             find_flag = 0
             for fi in files:
+                print(log_pth)
                 if fi.endswith(".json") and "results" in fi:
                     find_flag = 1
                     break
@@ -154,12 +189,13 @@ def parseCompRes(
             with open(logpth, 'r', encoding='utf8') as f:
                 data = json.load(f, object_pairs_hook=OrderedDict)
             res_dict = data['results'][task]
+            print(res_dict)
             res_acc = -1.
             res_std = -1.
             for ky in res_dict.keys():
-                if "exact_match," in ky:
+                if "acc," in ky or "exact_match," in ky:
                     res_acc = res_dict[ky]
-                if "exact_match_stderr," in ky:
+                if "exact_match_stderr," in ky or "acc_stderr," in ky:
                     res_std = res_dict[ky]
             assert res_acc >= 0.
             assert res_std >= 0.
@@ -186,4 +222,5 @@ def parseCompRes(
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    main2()
