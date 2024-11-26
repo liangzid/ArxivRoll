@@ -17,10 +17,11 @@ from typing import List, Tuple, Dict
 import random
 from pprint import pprint as ppp
 import statistics
+from collections import OrderedDict
 
 from datasets import load_dataset
 
-from draws import draw_pieChart
+from draws import drawPieChartSCP
 
 
 def obtain_statistic_info():
@@ -50,15 +51,16 @@ def obtain_statistic_info():
         "robench2024b_all_seteconSCP-c",
         "robench2024b_all_seteconSCP-p",
     ]
-    private_benchmark_ls = [
-        "liangzid/"+x for x in private_benchmark_ls
-        ]
-    overalldict = {}
 
-    for private_bench in private_benchmark_ls:
+    # private_benchmark_ls = [
+    #     "liangzid/"+x for x in private_benchmark_ls
+    # ]
+    # overalldict = {}
 
-        overalldict[private_bench] = getStat(
-            private_bench, scp_type=private_bench[-1])
+    # for private_bench in private_benchmark_ls:
+
+    #     overalldict[private_bench] = getStat(
+    #         private_bench, scp_type=private_bench[-1])
 
     category_ls = [
         "cs",
@@ -70,6 +72,7 @@ def obtain_statistic_info():
         "q-bio",
         "econ",
     ]
+
     categorylabel_ls = [
         "CS",
         "Q-Fin",
@@ -81,26 +84,41 @@ def obtain_statistic_info():
         "Econ",
     ]
 
-    # 1. A fan map to illustrate the sample number distribution.
-    cate_sampelnum_dict={}
-    for scptype in ["s","c","p"]:
-        cate_sample_num_ls=[]
-        for cate in category_ls:
-            keyname=f"liangzid/robench2024b_all_set{cate}SCP-{scptype}"
-            datadict=overalldict[keyname]
-            key1=list(datadict.keys())[0]
-            num=datadict[key1]["num"]
-            cate_sample_num_ls.append(num)
-        cate_sampelnum_dict[scptype]=cate_sample_num_ls
-    for ky in cate_sampelnum_dict:
-        save_pth=f"./num_pie_{ky}.pdf"
-        draw_pieChart(
-            cate_sampelnum_dict[ky],
-            categorylabel_ls,
-            save_pth)
-        
-        
-        
+    # # 1. A fan map to illustrate the sample number distribution.
+    # cate_sampelnum_dict = {}
+    # for scptype in ["s", "c", "p"]:
+    #     cate_sample_num_ls = []
+    #     for cate in category_ls:
+    #         keyname = f"liangzid/robench2024b_all_set{cate}SCP-{scptype}"
+    #         datadict = overalldict[keyname]
+    #         key1 = list(datadict.keys())[0]
+    #         num = datadict[key1]["num"]
+    #         cate_sample_num_ls.append(num)
+    #     cate_sampelnum_dict[scptype] = cate_sample_num_ls
+
+    # with open("count_benchmark_data.json", 'w', encoding='utf8') as f:
+    #     json.dump([overalldict, cate_sampelnum_dict],
+    #               f, ensure_ascii=False, indent=4)
+    # print("Save DONE.")
+
+    with open("count_benchmark_data.json", 'r', encoding='utf8') as f:
+        data = json.load(f, object_pairs_hook=OrderedDict)
+
+    overalldict = data[0]
+    cate_sampelnum_dict = data[1]
+
+    drawPieChartSCP(
+        cate_sampelnum_dict,
+        categorylabel_ls,
+        save_pth="pie.pdf",
+                    )
+
+    # for ky in cate_sampelnum_dict:
+    #     save_pth = f"./num_pie_{ky}.pdf"
+    #     draw_pieChart(
+    #         cate_sampelnum_dict[ky],
+    #         categorylabel_ls,
+    #         save_pth)
 
 
 def getStat(dataset_name, scp_type="s"):
@@ -162,8 +180,7 @@ def _getLen(textls):
     }
 
 
-
-## running entry
+# running entry
 if __name__ == "__main__":
     # main()
     obtain_statistic_info()

@@ -13,62 +13,61 @@ functions to draw plots.
 
 # ------------------------ Code --------------------------------------
 
-## normal import 
+# normal import
 import json
-from typing import List,Tuple,Dict
+from typing import List, Tuple, Dict
 import random
 from pprint import pprint as ppp
 
 from matplotlib import pyplot as plt
 
-
-def draw_pieChart(data_ls,labels,save_pth):
-    sizes=data_ls
-    # colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']  # 自定义颜色
-    explode = (0.1, 0, 0, 0, 0, 0, 0, 0)  # 突出显示第一个饼图部分
-
-    # 绘制饼图
-    plt.pie(sizes, explode=explode, labels=labels,
-            # colors=colors,
-            autopct='%1.1f%%', shadow=True, startangle=140)
-
-    # 确保饼图是圆形的
-    plt.axis('equal')
-
-    # 添加标题
-    # plt.title('美化的饼图示例')
-
-    # 显示图例
-    plt.legend(labels, loc="best", bbox_to_anchor=(1, 0, 0.5, 1))
-
-    # 显示图表
-    plt.show()
+print(plt.style.available)
 
 
+def drawPieChartSCP(cate_samplenum_dict, labels, save_pth):
+    plt.style.use("seaborn-v0_8-white")
+    wedge_props = {
+        "linewidth": 2,
+        "edgecolor": "w",
+    }
+    textprops = {
+        'fontsize': 16,
+        # 'fontstyle': 'italic',
+        # 'fontweight': 'bold',
+    }
+    color_ls = [
+        "#C2E8F7",
+        "#FCE0E1",
+        "#F2F4C1",
+        "#FFE2BB",
+        "#CCE7CF",
+        "#DBDFEF",
+        "#F3F3F4",
+        "#C5BEDF",
+    ]
+    fig, axs = plt.subplots(1, 3, figsize=(16, 5))
+    key_ls = ["s", "c", "p"]
+    for i, x in enumerate(key_ls):
+        datals = cate_samplenum_dict[x]
+        axs[i].pie(datals,
+                   # explode=explode,
+                   colors=color_ls,
+                   labels=labels,
+                   autopct='%1.1f%%',
+                   textprops=textprops,
+                   wedgeprops=wedge_props,
+                   )
+        axs[i].axis('equal')
+
+    axs[0].set_title("(a) RoBench2024-S", fontsize=18,)
+    axs[1].set_title("(b) RoBench2024-C", fontsize=18,)
+    axs[2].set_title("(c) RoBench2024-P", fontsize=18,)
+    # plt.show()
+    plt.savefig(save_pth)
+    print("save done.")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## running entry
-if __name__=="__main__":
-    main()
+# running entry
+if __name__ == "__main__":
+    # main()
     print("EVERYTHING DONE.")
-
-
