@@ -30,6 +30,7 @@ from constructor import constructBenchmarksSCP
 
 def intrisicInfer(
         modelname,
+        save_path,
         scp_type="s",
         max_length=2048,
 ):
@@ -58,12 +59,12 @@ def intrisicInfer(
     print("Loading Done.")
 
     # 2. load test set
-    # assert scp_type in ["s", "c", "p"]
-    assert scp_type in ["s",]
-    # time_ls=list(range(32))
-    time_ls = list(range(2))
+    assert scp_type in ["s", "c", "p"]
+    # assert scp_type in ["s",]
+    time_ls = list(range(32))
+    # time_ls = list(range(2))
 
-    overall_dict={}
+    overall_dict = {}
 
     for time in time_ls:
         fpth = f"./multiTimeEvalBackup/Experiments_Time{time}_SCP-{scp_type}.jsonl"
@@ -79,8 +80,8 @@ def intrisicInfer(
                 datals.append(data)
         print("Now for generation.")
         # Now for inference
+        hit = 0.
         for data in tqdm(datals, desc="Test Cases",):
-            hit=0.
             if scp_type == "s":
                 shuffled_text = data["shuffled_text"]
                 A = data["A"]
@@ -93,8 +94,10 @@ def intrisicInfer(
                                   return_full_text=False,)
                 output = output[0]["generated_text"]
                 if label in output:
-                    hit+=1
-                print(output)
+                    hit += 1
+                    print(">>>>> HITTED.")
+                print(f"label: {label}")
+                print("output", output)
 
             elif scp_type == "c":
                 text_with_holes = data["text_with_holes"]
@@ -109,8 +112,9 @@ def intrisicInfer(
                                   return_full_text=False,)
                 output = output[0]["generated_text"]
                 if label in output:
-                    hit+=1
-                print(output)
+                    hit += 1
+                print(f"label: {label}")
+                print("output", output)
             elif scp_type == "p":
                 context = data["context"]
                 A = data["A"]
@@ -123,12 +127,16 @@ def intrisicInfer(
                                   return_full_text=False,)
                 output = output[0]["generated_text"]
                 if label in output:
-                    hit+=1
-                print(output)
-        overall_dict[time]=hit/len(datals)
+                    hit += 1
+                print(f"label: {label}")
+                print("output", output)
+        overall_dict[time] = hit/len(datals)
 
     print(overall_dict)
-
+    with open(save_path, 'w', encoding='utf8') as f:
+        json.dump(overall_dict,
+                  f, ensure_ascii=False, indent=4)
+    print("Results save done.")
 
 
 def multitimeGenerateBenches(
@@ -165,5 +173,20 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
-    intrisicInfer("meta-llama/Llama-3.1-8B-Instruct")
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    save_pth_prefix = "stability_benchmark_eval_"
+    intrisicInfer(
+        "meta-llama/Llama-3.1-8B-Instruct",
+        save_path=save_pth_prefix+"s.json",
+        scp_type="s",
+    )
+    intrisicInfer(
+        "meta-llama/Llama-3.1-8B-Instruct",
+        save_path=save_pth_prefix+"s.json",
+        scp_type="c",
+    )
+    intrisicInfer(
+        "meta-llama/Llama-3.1-8B-Instruct",
+        save_path=save_pth_prefix+"s.json",
+        scp_type="p",
+    )
