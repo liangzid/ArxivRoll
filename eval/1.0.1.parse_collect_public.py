@@ -1,14 +1,15 @@
 """
 ======================================================================
-1.PARSE_COLLECT_EXPER_RES ---
+1.0.1.PARSE_COLLECT_PUBLIC ---
 
-parse the results of `lm_eval` and collect them to compute the RS score.
+Collect public datasets.
 
     Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
     Copyright © 2024, ZiLiang, all rights reserved.
-    Created: 13 November 2024
+    Created:  6 December 2024
 ======================================================================
 """
+
 
 
 # ------------------------ Code --------------------------------------
@@ -32,7 +33,14 @@ def main():
         "Qwen/Qwen2.5-72B-Instruct",
         "01-ai/Yi-1.5-34B-Chat",
         "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
-        "meta-llama/Llama-3.1-70B-Instruct"
+        "meta-llama/Llama-3.1-70B-Instruct",
+        "microsoft/phi-1",
+        "microsoft/phi-1_5",
+        "microsoft/phi-2",
+        "microsoft/Phi-3-mini-4k-instruct",
+        "meta-llama/Llama-2-7b-chat-hf",
+        "meta-llama/Llama-2-13b-chat-hf",
+        "Qwen/Qwen2.5-7B-Instruct",
                 ]
 
     private_public_align_dict = {
@@ -129,58 +137,11 @@ def main():
 
     parseCompRes(model_ls, overall_dataset_ls,)
 
-def main2():
-    model_ls=[
-        # "EleutherAI/gpt-j-6B", "microsoft/Phi-3.5-mini-instruct", "Qwen/Qwen2-7B-Instruct" ,  
-        # "meta-llama/Meta-Llama-3-8B",
-        # "meta-llama/Llama-3.1-8B-Instruct",
-        # "microsoft/phi-1",
-        # "microsoft/phi-1_5",
-        # "microsoft/phi-2",
-        # "microsoft/Phi-3-mini-4k-instruct",
-        # "meta-llama/Llama-2-7b-chat-hf",
-        # "meta-llama/Llama-2-13b-chat-hf",
-        # "Qwen/Qwen2.5-7B-Instruct",
-        "Qwen/Qwen2.5-72B-Instruct",
-        "01-ai/Yi-1.5-34B-Chat",
-        "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
-        "meta-llama/Llama-3.1-70B-Instruct",
-    ]
-    private_benchmark_ls=[
-        "robench2024b_all_setcsSCP-s", \
-"robench2024b_all_setcsSCP-c", \
-"robench2024b_all_setcsSCP-p", \
-"robench2024b_all_setq-finSCP-s", \
-"robench2024b_all_setq-finSCP-c", \
-"robench2024b_all_setq-finSCP-p", \
-"robench2024b_all_setmathSCP-s", \
-"robench2024b_all_setmathSCP-c", \
-"robench2024b_all_setmathSCP-p", \
-"robench2024b_all_seteessSCP-s", \
-"robench2024b_all_seteessSCP-c", \
-"robench2024b_all_seteessSCP-p", \
-"robench2024b_all_setphysicsSCP-s", \
-"robench2024b_all_setphysicsSCP-c", \
-"robench2024b_all_setphysicsSCP-p", \
-"robench2024b_all_setstatSCP-s", \
-"robench2024b_all_setstatSCP-c", \
-"robench2024b_all_setstatSCP-p", \
-"robench2024b_all_setq-bioSCP-s", \
-"robench2024b_all_setq-bioSCP-c", \
-"robench2024b_all_setq-bioSCP-p", \
-"robench2024b_all_seteconSCP-s", \
-"robench2024b_all_seteconSCP-c", \
-"robench2024b_all_seteconSCP-p",
-    ]
-
-
-    parseCompRes(model_ls, private_benchmark_ls,result_save_pth="private_overall_res.json",)
-
 
 def parseCompRes(
         model_ls, dataset_ls,
         parsed_log_dir="./eval/RES_OPENSOURCE/",
-        result_save_pth="overall_res.json",
+        result_save_pth="public_overall_res.json",
 ):
 
     res_acc_lss = []
@@ -244,5 +205,4 @@ def parseCompRes(
 
 
 if __name__ == "__main__":
-    # main()
-    main2()
+    main()

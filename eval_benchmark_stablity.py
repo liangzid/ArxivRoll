@@ -183,13 +183,13 @@ if __name__ == "__main__":
     #     scp_type="s",
     # )
 
-    # intrisicInfer(
-    #     "meta-llama/Llama-3.1-8B-Instruct",
-    #     save_path=save_pth_prefix+"s.json",
-    #     scp_type="c",
-    # )
-    # intrisicInfer(
-    #     "meta-llama/Llama-3.1-8B-Instruct",
-    #     save_path=save_pth_prefix+"s.json",
-    #     scp_type="p",
-    # )
+    intrisicInfer(
+        "meta-llama/Llama-3.1-8B-Instruct",
+        save_path=save_pth_prefix+"s.json",
+        scp_type="c",
+    )
+    intrisicInfer(
+        "meta-llama/Llama-3.1-8B-Instruct",
+        save_path=save_pth_prefix+"s.json",
+        scp_type="p",
+    )

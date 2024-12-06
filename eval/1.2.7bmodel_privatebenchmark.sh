@@ -19,11 +19,11 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/RES_OPENSOURCE/"
 
-export model_ls=("microsoft/phi-1" "microsoft/phi-1_5" "microsoft/phi-2" "microsoft/Phi-3-mini-4k-instruct")
+#export model_ls=("microsoft/phi-1" "microsoft/phi-1_5" "microsoft/phi-2" "microsoft/Phi-3-mini-4k-instruct")
 #export model_ls=("meta-llama/Llama-2-7b-chat-hf" "meta-llama/Llama-2-13b-chat-hf" "Neko-Institute-of-Science/LLaMA-7B-HF")
 #export model_ls=("Qwen/Qwen2.5-7B-Instruct" "meta-llama/Llama-3.2-3B-Instruct")
 
-# export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
 
 export task_ls=(
 # "robench2024b_all_setcsSCP-s" \
