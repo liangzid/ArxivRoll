@@ -23,11 +23,16 @@ from collections import OrderedDict
 
 
 def main():
-    model_ls = ["EleutherAI/gpt-j-6B",
-                #"microsoft/Phi-3.5-mini-instruct",
-                #"Qwen/Qwen2-7B-Instruct",
-                #"meta-llama/Meta-Llama-3-8B",
-                #"meta-llama/Llama-3.1-8B-Instruct"
+    model_ls = [
+        # "EleutherAI/gpt-j-6B",
+        #"microsoft/Phi-3.5-mini-instruct",
+        #"Qwen/Qwen2-7B-Instruct",
+        #"meta-llama/Meta-Llama-3-8B",
+        #"meta-llama/Llama-3.1-8B-Instruct",
+        "Qwen/Qwen2.5-72B-Instruct",
+        "01-ai/Yi-1.5-34B-Chat",
+        "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
+        "meta-llama/Llama-3.1-70B-Instruct"
                 ]
 
     private_public_align_dict = {
@@ -126,9 +131,20 @@ def main():
 
 def main2():
     model_ls=[
-        # "EleutherAI/gpt-j-6B", "microsoft/Phi-3.5-mini-instruct", "Qwen/Qwen2-7B-Instruct" ,
-        "meta-llama/Meta-Llama-3-8B",
-        "meta-llama/Llama-3.1-8B-Instruct",
+        # "EleutherAI/gpt-j-6B", "microsoft/Phi-3.5-mini-instruct", "Qwen/Qwen2-7B-Instruct" ,  
+        # "meta-llama/Meta-Llama-3-8B",
+        # "meta-llama/Llama-3.1-8B-Instruct",
+        # "microsoft/phi-1",
+        # "microsoft/phi-1_5",
+        # "microsoft/phi-2",
+        # "microsoft/Phi-3-mini-4k-instruct",
+        # "meta-llama/Llama-2-7b-chat-hf",
+        # "meta-llama/Llama-2-13b-chat-hf",
+        # "Qwen/Qwen2.5-7B-Instruct",
+        "Qwen/Qwen2.5-72B-Instruct",
+        "01-ai/Yi-1.5-34B-Chat",
+        "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
+        "meta-llama/Llama-3.1-70B-Instruct",
     ]
     private_benchmark_ls=[
         "robench2024b_all_setcsSCP-s", \
@@ -140,9 +156,9 @@ def main2():
 "robench2024b_all_setmathSCP-s", \
 "robench2024b_all_setmathSCP-c", \
 "robench2024b_all_setmathSCP-p", \
-# "robench2024b_all_seteecsSCP-s", \
-# "robench2024b_all_seteecsSCP-c", \
-# "robench2024b_all_seteecsSCP-p", \
+"robench2024b_all_seteessSCP-s", \
+"robench2024b_all_seteessSCP-c", \
+"robench2024b_all_seteessSCP-p", \
 "robench2024b_all_setphysicsSCP-s", \
 "robench2024b_all_setphysicsSCP-c", \
 "robench2024b_all_setphysicsSCP-p", \
@@ -152,7 +168,7 @@ def main2():
 "robench2024b_all_setq-bioSCP-s", \
 "robench2024b_all_setq-bioSCP-c", \
 "robench2024b_all_setq-bioSCP-p", \
-# "robench2024b_all_seteconSCP-s", \
+"robench2024b_all_seteconSCP-s", \
 "robench2024b_all_seteconSCP-c", \
 "robench2024b_all_seteconSCP-p",
     ]
@@ -176,29 +192,33 @@ def parseCompRes(
         temp_std_ls = []
         res_model_dict[model] = {}
         for task in dataset_ls:
-            log_pth = parsed_log_dir+str(model)+task+f"/"+model.replace("/","__")
-            files = os.listdir(log_pth)
-            find_flag = 0
-            for fi in files:
-                print(log_pth)
-                if fi.endswith(".json") and "results" in fi:
-                    find_flag = 1
-                    break
-            assert find_flag == 1
-            logpth = log_pth+"/"+fi
-            with open(logpth, 'r', encoding='utf8') as f:
-                data = json.load(f, object_pairs_hook=OrderedDict)
-            res_dict = data['results'][task]
-            print(res_dict)
-            res_acc = -1.
-            res_std = -1.
-            for ky in res_dict.keys():
-                if "acc," in ky or "exact_match," in ky:
-                    res_acc = res_dict[ky]
-                if "exact_match_stderr," in ky or "acc_stderr," in ky:
-                    res_std = res_dict[ky]
-            assert res_acc >= 0.
-            assert res_std >= 0.
+            try:
+                log_pth = parsed_log_dir+str(model)+task+f"/"+model.replace("/","__")
+                files = os.listdir(log_pth)
+                find_flag = 0
+                for fi in files:
+                    print(log_pth)
+                    if fi.endswith(".json") and "results" in fi:
+                        find_flag = 1
+                        break
+                assert find_flag == 1
+                logpth = log_pth+"/"+fi
+                with open(logpth, 'r', encoding='utf8') as f:
+                    data = json.load(f, object_pairs_hook=OrderedDict)
+                res_dict = data['results'][task]
+                print(res_dict)
+                res_acc = -1.
+                res_std = -1.
+                for ky in res_dict.keys():
+                    if "acc," in ky or "exact_match," in ky:
+                        res_acc = res_dict[ky]
+                    if "exact_match_stderr," in ky or "acc_stderr," in ky:
+                        res_std = res_dict[ky]
+                assert res_acc >= 0.
+                assert res_std >= 0.
+            except Exception as e:
+                res_acc= -1.
+                res_std= -1.
 
             temp_acc_ls.append(res_acc)
             temp_std_ls.append(res_std)
@@ -217,8 +237,10 @@ def parseCompRes(
         ], f, ensure_ascii=False, indent=4)
     print(f"Save DONE. Save to {result_save_pth}.")
     print("---------------------------------------------------------")
+    from pprint import pprint
     print(res_model_dict)
     print("---------------------------------------------------------")
+    pprint(res_model_dict)
 
 
 if __name__ == "__main__":
