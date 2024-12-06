@@ -157,7 +157,7 @@ def multitimeGenerateBenches(
         constructBenchmarksSCP(
             papers,
             hf_style_save_path=save_path,
-            scp_type="s",
+            scp_type=scp_type,
             n_gram=2,
             minimal_char=250,
         )
@@ -166,27 +166,30 @@ def multitimeGenerateBenches(
 
 
 def main():
-    multitimeGenerateBenches("s", 32)
+    # multitimeGenerateBenches("s", 32)
     multitimeGenerateBenches("c", 32)
     multitimeGenerateBenches("p", 32)
 
 
 if __name__ == "__main__":
-    # main()
+    main()
+
     os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     save_pth_prefix = "stability_benchmark_eval_"
-    intrisicInfer(
-        "meta-llama/Llama-3.1-8B-Instruct",
-        save_path=save_pth_prefix+"s.json",
-        scp_type="s",
-    )
-    intrisicInfer(
-        "meta-llama/Llama-3.1-8B-Instruct",
-        save_path=save_pth_prefix+"s.json",
-        scp_type="c",
-    )
-    intrisicInfer(
-        "meta-llama/Llama-3.1-8B-Instruct",
-        save_path=save_pth_prefix+"s.json",
-        scp_type="p",
-    )
+
+    # intrisicInfer(
+    #     "meta-llama/Llama-3.1-8B-Instruct",
+    #     save_path=save_pth_prefix+"s.json",
+    #     scp_type="s",
+    # )
+
+    # intrisicInfer(
+    #     "meta-llama/Llama-3.1-8B-Instruct",
+    #     save_path=save_pth_prefix+"s.json",
+    #     scp_type="c",
+    # )
+    # intrisicInfer(
+    #     "meta-llama/Llama-3.1-8B-Instruct",
+    #     save_path=save_pth_prefix+"s.json",
+    #     scp_type="p",
+    # )
