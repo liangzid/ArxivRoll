@@ -25,22 +25,22 @@ from collections import OrderedDict
 
 def main():
     model_ls = [
-        "EleutherAI/gpt-j-6B",
-        "microsoft/Phi-3.5-mini-instruct",
-        "Qwen/Qwen2-7B-Instruct",
-        "meta-llama/Meta-Llama-3-8B",
-        "meta-llama/Llama-3.1-8B-Instruct",
-        "Qwen/Qwen2.5-72B-Instruct",
+        # "EleutherAI/gpt-j-6B",
+        # "microsoft/Phi-3.5-mini-instruct",
+        # "Qwen/Qwen2-7B-Instruct",
+        # "meta-llama/Meta-Llama-3-8B",
+        # "meta-llama/Llama-3.1-8B-Instruct",
+        # "Qwen/Qwen2.5-72B-Instruct",
         "01-ai/Yi-1.5-34B-Chat",
         "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
         "meta-llama/Llama-3.1-70B-Instruct",
-        "microsoft/phi-1",
-        "microsoft/phi-1_5",
-        "microsoft/phi-2",
-        "microsoft/Phi-3-mini-4k-instruct",
-        "meta-llama/Llama-2-7b-chat-hf",
-        "meta-llama/Llama-2-13b-chat-hf",
-        "Qwen/Qwen2.5-7B-Instruct",
+        # "microsoft/phi-1",
+        # "microsoft/phi-1_5",
+        # "microsoft/phi-2",
+        # "microsoft/Phi-3-mini-4k-instruct",
+        # "meta-llama/Llama-2-7b-chat-hf",
+        # "meta-llama/Llama-2-13b-chat-hf",
+        # "Qwen/Qwen2.5-7B-Instruct",
                 ]
 
     private_public_align_dict = {
