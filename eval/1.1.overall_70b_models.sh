@@ -14,7 +14,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/robench/bin/python3
 source activate robench
-export TORCH_USE_CUDA_DSA="1"
+# export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/RES_OPENSOURCE/"
 
@@ -115,36 +115,35 @@ export model_ls=("01-ai/Yi-1.5-34B-Chat")
 #  "robench2024b_all_seteconSCP-c" \
 #  "robench2024b_all_seteconSCP-p")
 
-export task_ls=("robench2024b_all_setcsSCP-s" \
- "robench2024b_all_setcsSCP-c" \
- "robench2024b_all_setcsSCP-p" \
- "robench2024b_all_setq-finSCP-s" \
- "robench2024b_all_setq-finSCP-c" \
- "robench2024b_all_setq-finSCP-p" \
+export task_ls=("robench2024b_all_setcsSCP-c" \
+"robench2024b_all_setcsSCP-p" \
+ # "robench2024b_all_setq-finSCP-s" \
+ # "robench2024b_all_setq-finSCP-c" \
+ # "robench2024b_all_setq-finSCP-p" \
  # "robench2024b_all_setmathSCP-s" \
  # "robench2024b_all_setmathSCP-c" \
  # "robench2024b_all_setmathSCP-p" \
  "robench2024b_all_seteessSCP-s" \
  "robench2024b_all_seteessSCP-c" \
- "robench2024b_all_seteessSCP-p" \
+ # "robench2024b_all_seteessSCP-p" \
  # "robench2024b_all_setphysicsSCP-s" \
  # "robench2024b_all_setphysicsSCP-c" \
  "robench2024b_all_setphysicsSCP-p" \
- "robench2024b_all_setstatSCP-s" \
+ # "robench2024b_all_setstatSCP-s" \
  # "robench2024b_all_setstatSCP-c" \
  # "robench2024b_all_setstatSCP-p" \
  # "robench2024b_all_setq-bioSCP-s" \
  # "robench2024b_all_setq-bioSCP-c" \
  # "robench2024b_all_setq-bioSCP-p" \
- "robench2024b_all_seteconSCP-s" \
- "robench2024b_all_seteconSCP-c" \
+ # "robench2024b_all_seteconSCP-s" \
+ # "robench2024b_all_seteconSCP-c" \
  "robench2024b_all_seteconSCP-p")
 
 # export task_ls=("mmlu_pro_computer_science")
 # export model_ls=("Qwen/Qwen2.5-72B-Instruct")
 
 
-export CUDA_VISIBLE_DEVICES=0,1,2
+export CUDA_VISIBLE_DEVICES=2,0,3
 
 for model in ${model_ls[*]}
 do

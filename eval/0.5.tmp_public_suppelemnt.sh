@@ -20,15 +20,15 @@ export log_dir="${root_dir}/RES_OPENSOURCE/"
 export model_ls=("nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "meta-llama/Llama-3.1-70B-Instruct")
 
 export task_ls=(
-    "mmlu_pro_computer_science" \
+    # "mmlu_pro_computer_science" \
 		    # "mmlu_college_computer_science" "mmlu_computer_security" \
 		    # "mmlu_high_school_computer_science" "mmlu_machine_learning" \
-	"mmlu_pro_economics" \
+	# "mmlu_pro_economics" \
 	# "mmlu_econometrics" "mmlu_high_school_microeconomics" \
 		    # "mmlu_high_school_macroeconomics" \
-	"mmlu_pro_engineering" \
-	"mmlu_electrical_engineering" \
-		"mmlu_pro_math" \
+	# "mmlu_pro_engineering" \
+	# "mmlu_electrical_engineering" \
+		# "mmlu_pro_math" \
 		# "mmlu_abstract_algebra" \
 		# "mmlu_college_mathematics" \
 		# "mmlu_elementary_mathematics" \
@@ -36,32 +36,32 @@ export task_ls=(
 		# "mmlu_high_school_mathematics" \
 		"gsm8k" \
 		"gsm_plus" \
+		"mmlu_college_chemistry" \
+		"mmlu_other" \
+		"mmlu_pro_biology" \
+		"mmlu_pro_business" \
+		"mmlu_pro_chemistry" \
 		# "mmlu_pro_physics" \
 		# "mmlu_astronomy" \
 		# "mmlu_college_physics" \
 		# "mmlu_conceptual_physics" \
 		# "mmlu_high_school_physics" \
-		"mmlu_pro_biology" \
 		# "mmlu_anatomy" \
 		# "mmlu_clinical_knowledge" \
 		# "mmlu_college_biology" \
 		# "mmlu_college_medicine" \
 		# "mmlu_high_school_biology" \
-		"mmlu_pro_business" \
 		# "mmlu_business_ethics" \
 		# "mmlu_pro_math" \
 		# "mmlu_high_school_statistics" \
-		"mmlu_pro_chemistry" \
 		"mmlu_pro_health" \
 		"mmlu_pro_history" \
 		"mmlu_pro_law" \
 		"mmlu_pro_other" \
 		"mmlu_pro_philosophy" \
 		"mmlu_pro_psychology" \
-		"mmlu_other" \
-		"mmlu_social_sciences"
+		# "mmlu_social_sciences"
 		# "mmlu_humanities"
-		# "mmlu_college_chemistry" \
 		# "mmlu_high_school_chemistry" \
  # "mmlu_high_school_geography" \
  # "robench2024b_all_setcsSCP-s" \
@@ -90,7 +90,7 @@ export task_ls=(
 		# "robench2024b_all_seteconSCP-p"
 )
 
-export device="1"
+export CUDA_VISIBLE_DEVICES=1,2,3
 
 for model in ${model_ls[*]}
 do
@@ -102,9 +102,8 @@ do
 
 	lm_eval\
 	    --model hf\
-	    --model_args pretrained=${model}\
+	    --model_args pretrained=${model},parallelize=True\
 	    --tasks ${task}\
-	    --device cuda:${device}\
 	    --verbosity DEBUG\
 	    --log_samples\
 	    --output_path ${log_path}

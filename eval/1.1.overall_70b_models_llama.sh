@@ -14,7 +14,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/robench/bin/python3
 source activate robench
-export TORCH_USE_CUDA_DSA="1"
+# export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/RES_OPENSOURCE/"
 
@@ -123,7 +123,7 @@ export task_ls=(
 # export model_ls=("Qwen/Qwen2.5-72B-Instruct")
 
 
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=1,2,3
 
 for model in ${model_ls[*]}
 do
