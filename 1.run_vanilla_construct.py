@@ -215,6 +215,68 @@ def main():
 
         # break
 
+def mainSubset():
+    directory = "./robench2024b_all/"
+    is_html = True
+    files = os.listdir(directory)
+    for f in files:
+        if f.endswith("jsonl"):
+            continue
+        pth = directory+f
+        if is_html:
+            with open(pth,
+                      'r', encoding='utf8') as f:
+                data = json.load(f, object_pairs_hook=OrderedDict)
+            papers = data["text"]
+            print(f"All paper Number: {len(papers)}")
+
+        save_path = f"{pth}SCP-s-50.jsonl"
+        constructBenchmarksSCP(
+            papers,
+            hf_style_save_path=save_path,
+            scp_type="s",
+            n_gram=2,
+            minimal_char=250,
+            dataset_number=50,
+        )
+        newdatasetname = save_path.replace("./", "")\
+            .replace(".jsonl", "")\
+            .replace("/", "_").replace(".json", "")\
+            .replace("recent6months_html_", "")
+        push2HF(save_path, name=newdatasetname)
+
+        save_path = f"{pth}SCP-c-50.jsonl"
+        constructBenchmarksSCP(
+            papers,
+            hf_style_save_path=save_path,
+            scp_type="c",
+            n_gram=5,
+            minimal_char=400,
+            dataset_number=50,
+        )
+        newdatasetname = save_path.replace("./", "")\
+            .replace(".jsonl", "")\
+            .replace("/", "_").replace(".json", "")\
+            .replace("recent6months_html_", "")
+        push2HF(save_path, name=newdatasetname)
+
+        save_path = f"{pth}SCP-p-50.jsonl"
+        constructBenchmarksSCP(
+            papers,
+            hf_style_save_path=save_path,
+            scp_type="p",
+            n_gram=1,
+            minimal_char=100,
+            dataset_number=50,
+        )
+        newdatasetname = save_path.replace("./", "")\
+            .replace(".jsonl", "")\
+            .replace("/", "_").replace(".json", "")\
+            .replace("recent6months_html_", "")
+        push2HF(save_path, name=newdatasetname)
+
+        # break
+
 
 if __name__ == "__main__":
     # main_old()

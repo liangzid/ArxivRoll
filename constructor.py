@@ -111,9 +111,14 @@ def constructBenchmarksSCP(
         scp_type="p",
         n_gram=1,
         minimal_char=80,
+        dataset_number=1e6,
 ) -> List[Dict[str, str]]:
     datals = []
+    index_num=0
     for paper in tqdm(papers4Q, desc="Paper Processing:"):
+        if index_num>dataset_number:
+            break
+        index_num+=1
         i = 0
         while i < 1000:
             testcase = SCP(paper, scp_type, n_gram, minimal_char)
