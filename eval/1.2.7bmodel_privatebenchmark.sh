@@ -24,11 +24,12 @@ export log_dir="${root_dir}/RES_OPENSOURCE/"
 #export model_ls=("Qwen/Qwen2.5-7B-Instruct" "meta-llama/Llama-3.2-3B-Instruct")
 
 #export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
-export model_ls=("EleutherAI/gpt-j-6B" "microsoft/phi-1" "microsoft/phi-1_5" "microsoft/phi-2" "microsoft/Phi-3-mini-4k-instruct" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "Qwen/Qwen2.5-7B-Instruct" "meta-llama/Llama-2-7b-chat-hf" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+# export model_ls=("EleutherAI/gpt-j-6B" "microsoft/phi-1" "microsoft/phi-1_5" "microsoft/phi-2" "microsoft/Phi-3-mini-4k-instruct" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "Qwen/Qwen2.5-7B-Instruct" "meta-llama/Llama-2-7b-chat-hf" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+export model_ls=("princeton-nlp/gemma-2-9b-it-SimPO" "ai21labs/AI21-Jamba-1.5-Mini" "mistralai/Mistral-7B-Instruct-v0.2" "Qwen/Qwen1.5-7B-Chat" "HuggingFaceH4/zephyr-7b-beta" "mistralai/Mistral-7B-Instruct-v0.1")
 export task_ls=(
-# "robench2024b_all_setcsSCP-s" \
-# "robench2024b_all_setcsSCP-c" \
-# "robench2024b_all_setcsSCP-p" \
+ "robench2024b_all_setcsSCP-s" \
+ "robench2024b_all_setcsSCP-c" \
+ "robench2024b_all_setcsSCP-p" 
 # "robench2024b_all_setq-finSCP-s" \
 # "robench2024b_all_setq-finSCP-c" \
 # "robench2024b_all_setq-finSCP-p" \
@@ -47,7 +48,7 @@ export task_ls=(
 # "robench2024b_all_setq-bioSCP-s" \
 # "robench2024b_all_setq-bioSCP-c" \
 # "robench2024b_all_setq-bioSCP-p" \
-   "robench2024b_all_seteconSCP-s" 
+   # "robench2024b_all_seteconSCP-s" 
 # "robench2024b_all_seteconSCP-c" \
 # "robench2024b_all_seteconSCP-p"
 )
