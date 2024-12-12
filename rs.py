@@ -10,7 +10,6 @@ Metric: rugged score.
 ======================================================================
 """
 
-
 # ------------------------ Code --------------------------------------
 # normal import
 import json
@@ -19,46 +18,58 @@ import random
 from pprint import pprint as ppp
 
 import numpy as np
+from collections import OrderedDict
 
 
 def getRSI_absolute(
-        paired_scores,
-        unmatched_pub_scores,
-        unmatched_pri_scores,
+    paired_scores,
+    unmatched_pub_scores,
+    unmatched_pri_scores,
 ):
-    part1_ls = [a-b for a, b in paired_scores]
-    avg_part1 = sum(part1_ls)/len(part1_ls)
+    part1_ls = [a - b for a, b in paired_scores]
+    avg_part1 = sum(part1_ls) / len(part1_ls)
 
-    avg_part2 = sum(unmatched_pub_scores)/len(unmatched_pub_scores)\
-        - sum(unmatched_pri_scores)/len(unmatched_pri_scores)
+    if len(unmatched_pub_scores) == 0:
+        avg_pub = 0.0
+    else:
+        avg_pub = sum(unmatched_pub_scores) / len(unmatched_pub_scores)
+
+    if len(unmatched_pri_scores) == 0:
+        avg_pri = 0.0
+    else:
+        avg_pri = sum(unmatched_pri_scores) / len(unmatched_pri_scores)
+
+    avg_part2 = avg_pub - avg_pri
 
     return avg_part1 + avg_part2
 
 
 def _getRelSorting(a2darray):
     rowranks = np.argsort(a2darray, axis=0)
-    return rowranks[:, ::-1]+1
+    return rowranks[:, ::-1] + 1
 
 
 def getRSIAbsolute4AllModels(
-        pair_ss,
-        upubss,
-        upriss,
+    pair_ss,
+    upubss,
+    upriss,
 ):
     overall_res = []
     for i in range(len(pair_ss)):
-        overall_res.append(getRSI_absolute(
-            pair_ss[i],
-            upubss[i],
-            upriss[i],
-        ))
+        overall_res.append(
+            getRSI_absolute(
+                pair_ss[i],
+                upubss[i],
+                upriss[i],
+            )
+        )
     return overall_res
 
 
 def getRSIRelative4AllModels(
-        paired_scores,
-        unmatched_pub_scores,
-        unmatched_pri_scores,
+    paired_scores,
+    unmatched_pub_scores,
+    unmatched_pri_scores,
 ):
 
     # 1. first transform the absolute results into their relative ranks.
@@ -117,8 +128,270 @@ def getRSIIAbsoluteScore4AllModels(pairedss, upri_ss):
         templs.extend(paired_pri_ss[i_model])
         overall_private_ss.append(templs)
     overall_private_ss = np.array(overall_private_ss)
-    var = np.var(overall_private_ss, axis=1, ddof=1)
-    return var
+    # var = np.var(overall_private_ss, axis=1, ddof=1)
+    std = np.std(overall_private_ss, axis=1, ddof=1)
+    return std
+
+
+def getRSIINORMAILIZEDScore4AllModels(pairedss, upri_ss):
+
+    paired_pri_ss = []
+    for permodells in pairedss:
+        ppris = []
+        for perbenchmark in permodells:
+            ppris.append(perbenchmark[1])
+        paired_pri_ss.append(ppris)
+
+    overall_private_ss = []
+    for i_model in range(len(pairedss)):
+        templs = upri_ss[i_model]
+        templs.extend(paired_pri_ss[i_model])
+        overall_private_ss.append(templs)
+    overall_private_ss = np.array(overall_private_ss)
+    # var = np.var(overall_private_ss, axis=1, ddof=1)
+    mean = np.mean(overall_private_ss, axis=1)
+    std = np.std(overall_private_ss, axis=1, ddof=1)
+    normalized_std = std / mean
+    return normalized_std
+
+
+def parseResdict2PairedUnpariedLists(
+    readpath="overall_res.json",
+    RS_res_save_path="ruggedscore_overall.json",
+):
+    with open(readpath, "r", encoding="utf8") as f:
+        data = json.load(f, object_pairs_hook=OrderedDict)
+    data = data[0]
+
+    modells = list(data.keys())
+    overall_taskls = list(data[modells[0]].keys())
+
+    unmatched_pri_scores = [[] for m in modells]
+
+    # obtain the values of unmatched public benchmarks
+    unmatched_pub_scores = []
+    unmatched_public_benchmarks = [
+        "mmlu_pro_chemistry",
+        "mmlu_pro_health",
+        "mmlu_pro_history",
+        "mmlu_pro_law",
+        "mmlu_pro_other",
+        "mmlu_pro_philosophy",
+        "mmlu_pro_psychology",
+        # ---------------------------
+        "mmlu_other",
+        "mmlu_social_sciences",
+        "mmlu_humanities",
+        "mmlu_college_chemistry",
+        # "mmlu_high_school_chemistry",
+        # "mmlu_high_school_geography",
+    ]
+    for model in modells:
+        templs = []
+        for upb in unmatched_public_benchmarks:
+            templs.append(data[model][upb]["acc"])
+        unmatched_pub_scores.append(templs)
+
+    # obtain the values of paired public and private benchmarks
+
+    private_benchname_key_dict = {
+        "robench2024b_all_setcsSCP-s": "cs",
+        "robench2024b_all_setcsSCP-c": "cs",
+        "robench2024b_all_setcsSCP-p": "cs",
+        "robench2024b_all_setq-finSCP-s": "fin",
+        "robench2024b_all_setq-finSCP-c": "fin",
+        "robench2024b_all_setq-finSCP-p": "fin",
+        "robench2024b_all_setmathSCP-s": "math",
+        "robench2024b_all_setmathSCP-c": "math",
+        "robench2024b_all_setmathSCP-p": "math",
+        "robench2024b_all_seteessSCP-s": "eess",
+        "robench2024b_all_seteessSCP-c": "eess",
+        "robench2024b_all_seteessSCP-p": "eess",
+        "robench2024b_all_setphysicsSCP-s": "physics",
+        "robench2024b_all_setphysicsSCP-c": "physics",
+        "robench2024b_all_setphysicsSCP-p": "physics",
+        "robench2024b_all_setstatSCP-s": "stat",
+        "robench2024b_all_setstatSCP-c": "stat",
+        "robench2024b_all_setstatSCP-p": "stat",
+        "robench2024b_all_setq-bioSCP-s": "q-bio",
+        "robench2024b_all_setq-bioSCP-c": "q-bio",
+        "robench2024b_all_setq-bioSCP-p": "q-bio",
+        "robench2024b_all_seteconSCP-s": "econ",
+        "robench2024b_all_seteconSCP-c": "econ",
+        "robench2024b_all_seteconSCP-p": "econ",
+    }
+
+    private_key_benchname_dict = {
+        "cs": [
+            "robench2024b_all_setcsSCP-s",
+            "robench2024b_all_setcsSCP-c",
+            "robench2024b_all_setcsSCP-p",
+        ],
+        "fin": [
+            "robench2024b_all_setq-finSCP-s",
+            "robench2024b_all_setq-finSCP-c",
+            "robench2024b_all_setq-finSCP-p",
+        ],
+        "math": [
+            "robench2024b_all_setmathSCP-s",
+            "robench2024b_all_setmathSCP-c",
+            "robench2024b_all_setmathSCP-p",
+        ],
+        "econ": [
+            "robench2024b_all_seteconSCP-s",
+            "robench2024b_all_seteconSCP-c",
+            "robench2024b_all_seteconSCP-p",
+        ],
+        "eess": [
+            "robench2024b_all_seteessSCP-s",
+            "robench2024b_all_seteessSCP-c",
+            "robench2024b_all_seteessSCP-p",
+        ],
+        "physics": [
+            "robench2024b_all_setphysicsSCP-s",
+            "robench2024b_all_setphysicsSCP-c",
+            "robench2024b_all_setphysicsSCP-p",
+        ],
+        "stat": [
+            "robench2024b_all_setstatSCP-s",
+            "robench2024b_all_setstatSCP-c",
+            "robench2024b_all_setstatSCP-p",
+        ],
+        "q-bio": [
+            "robench2024b_all_setq-bioSCP-s",
+            "robench2024b_all_setq-bioSCP-c",
+            "robench2024b_all_setq-bioSCP-p",
+        ],
+    }
+
+    domain_ls = list(private_key_benchname_dict.keys())
+
+    private_public_align_dict = {
+        "cs": [
+            "mmlu_pro_computer_science",
+            "mmlu_college_computer_science",
+            "mmlu_computer_security",
+            "mmlu_high_school_computer_science",
+            "mmlu_machine_learning",
+        ],
+        "econ": [
+            "mmlu_pro_economics",
+            "mmlu_econometrics",
+            "mmlu_high_school_microeconomics",
+            "mmlu_high_school_macroeconomics",
+        ],
+        "eess": [
+            "mmlu_pro_engineering",
+            "mmlu_electrical_engineering",
+        ],
+        "math": [
+            "mmlu_pro_math",
+            "mmlu_abstract_algebra",
+            "mmlu_college_mathematics",
+            "mmlu_elementary_mathematics",
+            "mmlu_formal_logic",
+            "mmlu_high_school_mathematics",
+            "gsm8k",
+            "gsm_plus",
+        ],
+        "physics": [
+            "mmlu_pro_physics",
+            "mmlu_astronomy",
+            "mmlu_college_physics",
+            "mmlu_conceptual_physics",
+            "mmlu_high_school_physics",
+        ],
+        "q-bio": [
+            "mmlu_pro_biology",
+            "mmlu_anatomy",
+            "mmlu_clinical_knowledge",
+            "mmlu_college_biology",
+            "mmlu_college_medicine",
+            "mmlu_high_school_biology",
+        ],
+        "fin": [
+            "mmlu_pro_business",
+            "mmlu_business_ethics",
+        ],
+        "stat": [
+            "mmlu_pro_math",
+            "mmlu_high_school_statistics",
+        ],
+    }
+
+    matched_pub_priv_scores = []
+    for model in modells:
+        templs = []
+        for domain in domain_ls:
+            related_public_benchls = private_public_align_dict[domain]
+            related_priviate_benchls = private_key_benchname_dict[domain]
+            avg_pub = []
+            for rpb in related_public_benchls:
+                value = data[model][rpb]["acc"]
+                if value < 0:
+                    continue
+                else:
+                    avg_pub.append(value)
+            if len(avg_pub) == 0:
+                avg_pub = 0.0
+                print(f"model: {model}\n domain: {domain}")
+            else:
+                avg_pub = sum(avg_pub) / len(avg_pub)
+            avg_pri = []
+            for rpb in related_priviate_benchls:
+                value = data[model][rpb]["acc"]
+                assert value >= 0
+                avg_pri.append(value)
+            avg_pri = sum(avg_pri) / len((avg_pri))
+            templs.append([avg_pub, avg_pri])
+        matched_pub_priv_scores.append(templs)
+
+    unmatched_pub_scores = [[] for m in modells]
+
+    # compute the results for RS-I and RS-II.
+    absolute_RS1_res = getRSIAbsolute4AllModels(
+        matched_pub_priv_scores,
+        unmatched_pub_scores,
+        unmatched_pri_scores,
+    )
+    relative_RS1_res = getRSIRelative4AllModels(
+        matched_pub_priv_scores,
+        unmatched_pub_scores,
+        unmatched_pri_scores,
+    )
+    RS2_res = getRSIIAbsoluteScore4AllModels(
+        matched_pub_priv_scores,
+        unmatched_pri_scores,
+    )
+    RS2_norm_res=getRSIINORMAILIZEDScore4AllModels(
+        matched_pub_priv_scores,
+        unmatched_pri_scores,
+        )
+
+    # finally: merge into three dicts.
+    abs_rs1_dict = {}
+    rel_rs1_dict = {}
+    rs2_dict = {}
+    rs2_norm_dict = {}
+    for i, model in enumerate(modells):
+        abs_rs1_dict[model] = absolute_RS1_res[i]
+        rel_rs1_dict[model] = relative_RS1_res[i]
+        rs2_dict[model] = RS2_res[i]
+        rs2_norm_dict[model] = RS2_norm_res[i]
+
+    with open(RS_res_save_path, "w", encoding="utf8") as f:
+        json.dump(
+            {
+                "abs-rs1": abs_rs1_dict,
+                "rel-rs1": rel_rs1_dict,
+                "rs2": rs2_dict,
+                "norm-rs2": rs2_norm_dict,
+            },
+            f,
+            ensure_ascii=False,
+            indent=4,
+        )
+    print(f"Save DONE. Save to {RS_res_save_path}...")
 
 
 def main():
@@ -162,4 +435,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    parseResdict2PairedUnpariedLists()
