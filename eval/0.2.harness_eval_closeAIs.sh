@@ -29,7 +29,8 @@ export device="1"
 
 # export model="meta-llama/Llama-3.1-8B-Instruct"
 # export model="gpt-4o"
-export model_ls=("gpt-4" "gpt-3.5-turbo" "o1-preview" "gpt-4o")
+# export model_ls=("gpt-4o" "gpt-3.5-turbo" "gpt-4" "o1-preview")
+export model_ls=("gpt-4")
 # export model="o1-preview-2024-09-12"
 # export model="gpt-4o"
 # export model="gpt-4"
@@ -40,30 +41,32 @@ export model_ls=("gpt-4" "gpt-3.5-turbo" "o1-preview" "gpt-4o")
 
 # export log_path="${log_dir}1026_closeAI_res{model}-----{task}.log"
 
-export task_ls=( "robench2024b_all_setcsSCP-s" \
- "robench2024b_all_setcsSCP-c" \
- "robench2024b_all_setcsSCP-p" \
- "robench2024b_all_setq-finSCP-s" \
- "robench2024b_all_setq-finSCP-c" \
- "robench2024b_all_setq-finSCP-p" \
- "robench2024b_all_setmathSCP-s" \
- "robench2024b_all_setmathSCP-c" \
- "robench2024b_all_setmathSCP-p" \
- "robench2024b_all_seteecsSCP-s" \
- "robench2024b_all_seteecsSCP-c" \
- "robench2024b_all_seteecsSCP-p" \
- "robench2024b_all_setphysicsSCP-s" \
- "robench2024b_all_setphysicsSCP-c" \
- "robench2024b_all_setphysicsSCP-p" \
- "robench2024b_all_setstatSCP-s" \
- "robench2024b_all_setstatSCP-c" \
- "robench2024b_all_setstatSCP-p" \
- "robench2024b_all_setq-bioSCP-s" \
- "robench2024b_all_setq-bioSCP-c" \
- "robench2024b_all_setq-bioSCP-p" \
- "robench2024b_all_seteconSCP-s" \
- "robench2024b_all_seteconSCP-c" \
- "robench2024b_all_seteconSCP-p")
+export task_ls=( 
+ "robench2024b_all_setcsSCP-s-50" \
+  "robench2024b_all_setcsSCP-c-50" \
+  "robench2024b_all_setcsSCP-p-50" \
+  "robench2024b_all_setq-finSCP-s-50" \
+  "robench2024b_all_setq-finSCP-c-50" \
+  "robench2024b_all_setq-finSCP-p-50" \
+  "robench2024b_all_setmathSCP-s-50" \
+  "robench2024b_all_setmathSCP-c-50" \
+  "robench2024b_all_setmathSCP-p-50" \
+ "robench2024b_all_seteessSCP-s-50" \
+ "robench2024b_all_seteessSCP-c-50" \
+ "robench2024b_all_seteessSCP-p-50" \
+ "robench2024b_all_setphysicsSCP-s-50" \
+ "robench2024b_all_setphysicsSCP-c-50" \
+ "robench2024b_all_setphysicsSCP-p-50" \
+ "robench2024b_all_setstatSCP-s-50" 
+ "robench2024b_all_setstatSCP-c-50" \
+ "robench2024b_all_setstatSCP-p-50" \
+ "robench2024b_all_setq-bioSCP-s-50" \
+ "robench2024b_all_setq-bioSCP-c-50" \
+ "robench2024b_all_setq-bioSCP-p-50" \
+ "robench2024b_all_seteconSCP-s-50" \
+ "robench2024b_all_seteconSCP-c-50" \
+  "robench2024b_all_seteconSCP-p-50"
+ )
 
 # export task_ls=("mmlu_pro_computer_science")
 # export model_ls=("meta-llama/Llama-3.1-8B-Instruct")

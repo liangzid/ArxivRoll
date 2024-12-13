@@ -222,33 +222,41 @@ def main3():
         "01-ai/Yi-1.5-34B-Chat",
         "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
         "meta-llama/Llama-3.1-70B-Instruct",
+
+        # for those only `cs` has been executed.
+        "princeton-nlp/gemma-2-9b-it-SimPO",
+        "ai21labs/AI21-Jamba-1.5-Mini",
+        "mistralai/Mistral-7B-Instruct-v0.2",
+        "Qwen/Qwen1.5-7B-Chat",
+        "HuggingFaceH4/zephyr-7b-beta",
+        "mistralai/Mistral-7B-Instruct-v0.1",
     ]
 
     private_benchmark_ls = [
         "robench2024b_all_setcsSCP-s",
         "robench2024b_all_setcsSCP-c",
         "robench2024b_all_setcsSCP-p",
-        "robench2024b_all_setq-finSCP-s",
-        "robench2024b_all_setq-finSCP-c",
-        "robench2024b_all_setq-finSCP-p",
-        "robench2024b_all_setmathSCP-s",
-        "robench2024b_all_setmathSCP-c",
-        "robench2024b_all_setmathSCP-p",
-        "robench2024b_all_seteessSCP-s",
-        "robench2024b_all_seteessSCP-c",
-        "robench2024b_all_seteessSCP-p",
-        "robench2024b_all_setphysicsSCP-s",
-        "robench2024b_all_setphysicsSCP-c",
-        "robench2024b_all_setphysicsSCP-p",
-        "robench2024b_all_setstatSCP-s",
-        "robench2024b_all_setstatSCP-c",
-        "robench2024b_all_setstatSCP-p",
-        "robench2024b_all_setq-bioSCP-s",
-        "robench2024b_all_setq-bioSCP-c",
-        "robench2024b_all_setq-bioSCP-p",
-        "robench2024b_all_seteconSCP-s",
-        "robench2024b_all_seteconSCP-c",
-        "robench2024b_all_seteconSCP-p",
+        # "robench2024b_all_setq-finSCP-s",
+        # "robench2024b_all_setq-finSCP-c",
+        # "robench2024b_all_setq-finSCP-p",
+        # "robench2024b_all_setmathSCP-s",
+        # "robench2024b_all_setmathSCP-c",
+        # "robench2024b_all_setmathSCP-p",
+        # "robench2024b_all_seteessSCP-s",
+        # "robench2024b_all_seteessSCP-c",
+        # "robench2024b_all_seteessSCP-p",
+        # "robench2024b_all_setphysicsSCP-s",
+        # "robench2024b_all_setphysicsSCP-c",
+        # "robench2024b_all_setphysicsSCP-p",
+        # "robench2024b_all_setstatSCP-s",
+        # "robench2024b_all_setstatSCP-c",
+        # "robench2024b_all_setstatSCP-p",
+        # "robench2024b_all_setq-bioSCP-s",
+        # "robench2024b_all_setq-bioSCP-c",
+        # "robench2024b_all_setq-bioSCP-p",
+        # "robench2024b_all_seteconSCP-s",
+        # "robench2024b_all_seteconSCP-c",
+        # "robench2024b_all_seteconSCP-p",
     ]
 
     parseCompRes(
@@ -257,12 +265,60 @@ def main3():
         result_save_pth="private_openmodels_res.json",
     )
 
+def main4():
+    model_ls = [
+        # "EleutherAI/gpt-j-6B", "microsoft/Phi-3.5-mini-instruct", "Qwen/Qwen2-7B-Instruct" ,
+        # "meta-llama/Meta-Llama-3-8B",
+        # "meta-llama/Llama-3.1-8B-Instruct",
+        # "microsoft/phi-1",
+        # "microsoft/phi-1_5",
+        # "microsoft/phi-2",
+        # "microsoft/Phi-3-mini-4k-instruct",
+        # "meta-llama/Llama-2-7b-chat-hf",
+        # "meta-llama/Llama-2-13b-chat-hf",
+        # "Qwen/Qwen2.5-7B-Instruct",
+        "gpt-4o", "gpt-3.5-turbo", "gpt-4",
+    ]
+    private_benchmark_ls = [
+        "robench2024b_all_setcsSCP-s-50",
+        "robench2024b_all_setcsSCP-c-50",
+        "robench2024b_all_setcsSCP-p-50",
+        "robench2024b_all_setq-finSCP-s-50",
+        "robench2024b_all_setq-finSCP-c-50",
+        "robench2024b_all_setq-finSCP-p-50",
+        "robench2024b_all_setmathSCP-s-50",
+        "robench2024b_all_setmathSCP-c-50",
+        "robench2024b_all_setmathSCP-p-50",
+        "robench2024b_all_seteessSCP-s-50",
+        "robench2024b_all_seteessSCP-c-50",
+        "robench2024b_all_seteessSCP-p-50",
+        "robench2024b_all_setphysicsSCP-s-50",
+        "robench2024b_all_setphysicsSCP-c-50",
+        "robench2024b_all_setphysicsSCP-p-50",
+        "robench2024b_all_setstatSCP-s-50",
+        "robench2024b_all_setstatSCP-c-50",
+        "robench2024b_all_setstatSCP-p-50",
+        "robench2024b_all_setq-bioSCP-s-50",
+        "robench2024b_all_setq-bioSCP-c-50",
+        "robench2024b_all_setq-bioSCP-p-50",
+        "robench2024b_all_seteconSCP-s-50",
+        "robench2024b_all_seteconSCP-c-50",
+        "robench2024b_all_seteconSCP-p-50",
+    ]
+
+    parseCompRes(
+        model_ls,
+        private_benchmark_ls,
+        result_save_pth="overall_res_closeAIs.json",
+    )
+
+
 
 def parseCompRes(
     model_ls,
     dataset_ls,
-    parsed_log_dir="./eval/RES_OPENSOURCE/",
-    result_save_pth="overall_res.json",
+    parsed_log_dir="./eval/0.2.closeAIs/",
+    result_save_pth="overall_res_closeAIs.json",
 ):
 
     res_acc_lss = []
@@ -336,4 +392,4 @@ def parseCompRes(
 if __name__ == "__main__":
     # main()
     # main2()
-    main3()
+    main4()
