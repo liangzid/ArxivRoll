@@ -26,7 +26,7 @@ def getRSI_absolute(
     unmatched_pub_scores,
     unmatched_pri_scores,
 ):
-    part1_ls = [(a - b) / (a + b) for a, b in paired_scores]
+    part1_ls = [2 * (a - b) / (a + b) for a, b in paired_scores]
     avg_part1 = sum(part1_ls) / len(part1_ls)
 
     if len(unmatched_pub_scores) == 0:
@@ -39,7 +39,7 @@ def getRSI_absolute(
     else:
         avg_pri = sum(unmatched_pri_scores) / len(unmatched_pri_scores)
 
-    avg_part2 = avg_pub - avg_pri
+    avg_part2 = 2 * (avg_pub - avg_pri) / (avg_pub + avg_pri)
 
     return avg_part1 + avg_part2
 
