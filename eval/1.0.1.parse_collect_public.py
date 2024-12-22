@@ -31,7 +31,7 @@ def main():
         # "meta-llama/Meta-Llama-3-8B",
         # "meta-llama/Llama-3.1-8B-Instruct",
         # "Qwen/Qwen2.5-72B-Instruct",
-        "01-ai/Yi-1.5-34B-Chat",
+        # "01-ai/Yi-1.5-34B-Chat",
         "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
         "meta-llama/Llama-3.1-70B-Instruct",
         # "microsoft/phi-1",

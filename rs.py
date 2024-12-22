@@ -26,7 +26,7 @@ def getRSI_absolute(
     unmatched_pub_scores,
     unmatched_pri_scores,
 ):
-    part1_ls = [a - b for a, b in paired_scores]
+    part1_ls = [(a - b) / (a + b) for a, b in paired_scores]
     avg_part1 = sum(part1_ls) / len(part1_ls)
 
     if len(unmatched_pub_scores) == 0:
@@ -363,10 +363,10 @@ def parseResdict2PairedUnpariedLists(
         matched_pub_priv_scores,
         unmatched_pri_scores,
     )
-    RS2_norm_res=getRSIINORMAILIZEDScore4AllModels(
+    RS2_norm_res = getRSIINORMAILIZEDScore4AllModels(
         matched_pub_priv_scores,
         unmatched_pri_scores,
-        )
+    )
 
     # finally: merge into three dicts.
     abs_rs1_dict = {}

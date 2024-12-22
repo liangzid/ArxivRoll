@@ -6,7 +6,6 @@ export root_dir="${HOME}/arxivSpider/eval/"
 export log_dir="${root_dir}/0.4.claude/"
 
 
-
 ## set variables
 export device="1"
 # export model_ls=("EleutherAI/gpt-j-6B" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
@@ -14,6 +13,7 @@ export device="1"
 # export model="meta-llama/Llama-3.1-8B-Instruct"
 # export model="gpt-4o"
 export model_ls=("claude-3-haiku-20240307" "claude-3-5-sonnet-latest" "claude-3-opus-latest")
+export model_ls=("claude-3-5-sonnet-20241022")
 # export model="o1-preview-2024-09-12"
 # export model="gpt-4o"
 # export model="gpt-4"
@@ -62,7 +62,7 @@ do
 		export log_path="${log_dir}${model}${task}"
 		
 	lm_eval\
-			--model anthropic-chat-completions --apply_chat_template\
+			--model anthropic-chat \
 			--model_args model=${model}\
 			--tasks ${task}\
 			--device cuda:${device}\

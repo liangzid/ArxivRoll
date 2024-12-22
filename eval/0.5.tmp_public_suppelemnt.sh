@@ -34,14 +34,17 @@ export task_ls=(
 		# "mmlu_elementary_mathematics" \
 		# "mmlu_formal_logic" \
 		# "mmlu_high_school_mathematics" \
-		"gsm8k" \
-		"gsm_plus" \
-		"mmlu_college_chemistry" \
-		"mmlu_other" \
-		"mmlu_pro_biology" \
-		"mmlu_pro_business" \
+
+		# "gsm8k" \
+		# "gsm_plus" \
+		# "mmlu_college_chemistry" \
+		# "mmlu_other" \
+		# "mmlu_pro_biology" \
+		# "mmlu_pro_business" \
+
 		"mmlu_pro_chemistry" \
-		# "mmlu_pro_physics" \
+		"mmlu_pro_physics" \
+
 		# "mmlu_astronomy" \
 		# "mmlu_college_physics" \
 		# "mmlu_conceptual_physics" \
