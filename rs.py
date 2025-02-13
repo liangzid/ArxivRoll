@@ -39,7 +39,10 @@ def getRSI_absolute(
     else:
         avg_pri = sum(unmatched_pri_scores) / len(unmatched_pri_scores)
 
-    avg_part2 = 2 * (avg_pub - avg_pri) / (avg_pub + avg_pri)
+    if avg_pri == 0.0:
+        avg_part2 = 0.0
+    else:
+        avg_part2 = 2 * (avg_pub - avg_pri) / (avg_pub + avg_pri)
 
     return avg_part1 + avg_part2
 
@@ -348,6 +351,9 @@ def parseResdict2PairedUnpariedLists(
 
     unmatched_pub_scores = [[] for m in modells]
 
+    # print("Matched Public and Private Scores:")
+    # print(matched_pub_priv_scores)
+
     # compute the results for RS-I and RS-II.
     absolute_RS1_res = getRSIAbsolute4AllModels(
         matched_pub_priv_scores,
@@ -373,11 +379,13 @@ def parseResdict2PairedUnpariedLists(
     rel_rs1_dict = {}
     rs2_dict = {}
     rs2_norm_dict = {}
+    private_dict = {}
     for i, model in enumerate(modells):
         abs_rs1_dict[model] = absolute_RS1_res[i]
         rel_rs1_dict[model] = relative_RS1_res[i]
         rs2_dict[model] = RS2_res[i]
         rs2_norm_dict[model] = RS2_norm_res[i]
+        private_dict[model] = mean([x[1] for x in matched_pub_priv_scores[i]])
 
     with open(RS_res_save_path, "w", encoding="utf8") as f:
         json.dump(
@@ -386,12 +394,17 @@ def parseResdict2PairedUnpariedLists(
                 "rel-rs1": rel_rs1_dict,
                 "rs2": rs2_dict,
                 "norm-rs2": rs2_norm_dict,
+                "pub_pri_performance": private_dict,
             },
             f,
             ensure_ascii=False,
             indent=4,
         )
     print(f"Save DONE. Save to {RS_res_save_path}...")
+
+
+def mean(xls):
+    return sum(xls) / len(xls)
 
 
 def main():

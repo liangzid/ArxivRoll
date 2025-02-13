@@ -28,13 +28,22 @@ from collections import OrderedDict
 
 def scatters_series_model():
 
+    x1ls = [4.21, 12.04, 12.71]
+    y1ls = [1.21, 0.82, 1.27]
+
+    x2ls = [8.34, 21.83, 26.94]
+    y2ls = [1.14, 0.74, 0.67]
+
+    x3ls = [28.20, 28.95]
+    y3ls = [0.69, 0.70]
+
     robench__series_models_dict = OrderedDict(
         {
             "Phi": {
                 "Phi-1": 4.21,
                 "Phi-1.5": 12.04,
-                "Phi-2": 21.78,
-                # "Phi-3-mini": 12.71,
+                # "Phi-2": 21.78,
+                "Phi-3-mini": 12.71,
                 # "Phi-3.5-mini": 17.02,
             },
             "Llama": {
@@ -51,33 +60,24 @@ def scatters_series_model():
         }
     )
 
-    x1ls=[4.21,12.04,21.78]
-    y1ls=[13.65,17.99,20.57]
-
-    x2ls=[8.34,21.83,26.94]
-    y2ls=[23.36,26.91,28.33]
-
-    x3ls=[28.20,28.95]
-    y3ls=[30.80,32.82]
-
     rs__series_models_dict = OrderedDict(
         {
             "Phi": {
-                "Phi-1": 13.65,
-                "Phi-1.5": 17.99,
-                "Phi-2": 20.57,
-                "Phi-3-mini": 46.66,
-                "Phi-3.5-mini": 41.34,
+                "Phi-1": 1.21,
+                "Phi-1.5": 0.82,
+                "Phi-2": 0.62,
+                "Phi-3-mini": 1.27,
+                "Phi-3.5-mini": 1.07,
             },
             "Llama": {
-                "Llama2-7b": 23.36,
-                "Llama3-8b": 26.91,
-                "Llama3.1-8b": 28.33,
+                "Llama2-7b": 1.14,
+                "Llama3-8b": 0.74,
+                "Llama3.1-8b": 0.67,
                 # "Llama3.2": 0.00,
             },
             "Qwen": {
-                "Qwen2-7B": 30.90,
-                "Qwen2.5-7B": 32.82,
+                "Qwen2-7B": 0.69,
+                "Qwen2.5-7B": 0.70,
             },
         }
     )
@@ -112,16 +112,13 @@ def scatters_series_model():
         "Phi-2": "#d025ab",
         "Phi-3-mini": "#791564",
         "Phi-3.5-mini": "#23061c",
-
         # "Llama2-7b": "#d5e8eb",
         # "Llama3-8b": "#90c3c8",
         # "Llama3.1-8b": "#4e9ba6",
         # "Llama3.2": "#2e5a61",
-
         "Llama2-7b": "#90c3c8",
         "Llama3-8b": "#4e9ba6",
         "Llama3.1-8b": "#2e5a61",
-
         "Qwen-7B": "#f1c40f",
         "Qwen1.5-7B": "#f39c12",
         "Qwen2-7B": "#e67e22",
@@ -153,27 +150,35 @@ def scatters_series_model():
     axs.grid(True)
     compact_dict = OrderedDict({})
 
-    axs.plot(
-        y1ls,x1ls,color="red",
-        marker=".",
-        markersize=0.1,
-        markerfacecolor="red",
-        alpha=0.6,
-        )
-    axs.plot(
-        y2ls,x2ls,color="green",
-        marker=".",
-        markersize=0.1,
-        markerfacecolor="green",
-        alpha=0.6,
-        )
-    axs.plot(
-        y3ls,x3ls,color="orange",
-        marker=".",
-        markersize=0.1,
-        markerfacecolor="orange",
-        alpha=0.9,
-        )
+    # axs.plot(
+    #     y1ls,
+    #     x1ls,
+    #     color="red",
+    #     marker=".",
+    #     markersize=0.1,
+    #     markerfacecolor="red",
+    #     alpha=0.6,
+    # )
+
+    # axs.plot(
+    #     y2ls,
+    #     x2ls,
+    #     color="green",
+    #     marker=".",
+    #     markersize=0.1,
+    #     markerfacecolor="green",
+    #     alpha=0.6,
+    # )
+
+    # axs.plot(
+    #     y3ls,
+    #     x3ls,
+    #     color="orange",
+    #     marker=".",
+    #     markersize=0.1,
+    #     markerfacecolor="orange",
+    #     alpha=0.9,
+    # )
 
     for domain_key in robench__series_models_dict.keys():
         for task_key in robench__series_models_dict[domain_key].keys():
@@ -242,7 +247,5 @@ def scatters_series_model():
     print("SAVE DONE.")
 
 
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     scatters_series_model()
