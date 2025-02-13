@@ -2,8 +2,8 @@
 ======================================================================
 TMP --- 
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: XXXXXX <xxxxxx@xxxxxx>
+    Copyright © 2024, XXXXXX, all rights reserved.
     Created: 12 December 2024
 ======================================================================
 """

@@ -4,8 +4,8 @@ SCP ---
 
 Functions of how we construct test cases.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: XXXXXX <xxxxxx@xxxxxx>
+    Copyright © 2024, XXXXXX, all rights reserved.
     Created:  7 November 2024
 ======================================================================
 """
