@@ -1,7 +1,7 @@
 #+title: Arxiv Spider: Parse and Download HTML Source Codes.
 #+date: Sat Oct 19 18:53:54 2024
-#+author: Zi Liang
-#+email: zi1415926.liang@connect.polyu.hk
+#+author: XXXXXXX
+#+email: XXXX@XXXXXXX
 #+latex_class: elegantpaper
 #+filetags: :doc:
 
@@ -17,7 +17,7 @@ Or via conda:
 
 =conda env create -f robench.yaml=
 
-and then =git clone https://github.com/liangzid/harness-4-robench/tree/robench=, =cd harness-4-robench=, and =pip install -e .=.
+and then =git clone https://github.com/XXXXXX/harness-4-robench/tree/robench=, =cd harness-4-robench=, and =pip install -e .=.
 * Explanation of Code Files:
 
 + =./1.run_vanilla_construct.py=: to construct private benchmark.
