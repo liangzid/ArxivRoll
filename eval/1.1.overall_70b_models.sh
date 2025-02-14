@@ -123,7 +123,7 @@ export task_ls=(
 # export model_ls=("Qwen/Qwen2.5-72B-Instruct")
 
 
-export CUDA_VISIBLE_DEVICES=1,2,3
+export CUDA_VISIBLE_DEVICES=2,3,0
 
 for model in ${model_ls[*]}
 do

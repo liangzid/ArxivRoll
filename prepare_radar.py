@@ -162,7 +162,7 @@ def parseOverAllFileForRADAR(
             templs.append([avg_pub, avg_pri])
             scorePub_dict[domain] = avg_pub
             scorePri_dict[domain] = avg_pri
-            scoreRSI_dict[domain] = avg_pub - avg_pri
+            scoreRSI_dict[domain] = (avg_pub - avg_pri)/(avg_pub + avg_pri)
         overall_results[model] = {
             "PublicAveragedScore": scorePub_dict,
             "RobenchAveragedScore": scorePri_dict,
