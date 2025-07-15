@@ -503,18 +503,34 @@ def main3_allCategorys6Months():
         "q-fin",
         "stat",
     ]
-    save_dir = "./robench2024b_test_all_category/"
+    # save_dir = "./robench2024b_test_all_category/"
+    save_dir = "./robench2025a_test_all_category/"
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     else:
         pass
     for set_spec in set_specs:
         ids = []
-        for i in range(4, 10):
+        # for i in range(4, 10):
+        #     temp_ids = queryArxiv(
+        #         set_spec=set_spec,
+        #         from_date=f"2024-0{i}-01",
+        #         until_date=f"2024-0{i}-30")
+        #     ids.extend(temp_ids)
+        #     termOfUse()
+        year_month_ls=[
+            "2025-01",
+            "2025-02",
+            "2025-03",
+            "2025-04",
+            "2025-05",
+            "2025-06",
+            ]
+        for ym in year_month_ls:
             temp_ids = queryArxiv(
                 set_spec=set_spec,
-                from_date=f"2024-0{i}-01",
-                until_date=f"2024-0{i}-30")
+                from_date=f"{ym}-01",
+                until_date=f"{ym}-30")
             ids.extend(temp_ids)
             termOfUse()
         save_pth = f"{save_dir}recent6months_html_set{set_spec}.json"
@@ -525,7 +541,7 @@ def main3_allCategorys6Months():
 
 # running entry
 if __name__ == "__main__":
-    main()
+    # main()
     # main2()
-    # main3_allCategorys6Months()
+    main3_allCategorys6Months()
     print("EVERYTHING DONE.")
