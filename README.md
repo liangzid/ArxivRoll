@@ -48,7 +48,7 @@ ArxivBench is a **dynamic, one-time-pad-inspired evaluation framework** 🛡️ 
 
 The most easy way is to use `llm-eval-harness`
 
-Just install `lm-eval` from [here](https://github.com/liangzid/harness-4-arxivbench),
+Just install `lm-eval` from XXXXXXXXXXXXX,
 and then evaluate a huggingface model with:
 
 ```sh
