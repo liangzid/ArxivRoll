@@ -2,38 +2,31 @@
 # import numpy as np
 # import matplotlib
 
-# # 使用合适的后端，如果是在非图形界面环境中运行
 # matplotlib.use('Agg')
 
-# # 数据
 # labels = np.array(['A', 'B', 'C', 'D', 'E'])
 # data1 = np.array([0.6, 0.7, 0.8, 0.5, 0.9])
 # data2 = np.array([0.4, 0.6, 0.7, 0.3, 0.8])
 
-# # 角度
 # angles = np.linspace(0, 2 * np.pi, len(labels), endpoint=False).tolist()
 # angles += angles[:1]
 
-# # 数据闭合
 # data1 = np.concatenate((data1,[data1[0]]))
 # data2 = np.concatenate((data2,[data2[0]]))
 
-# # 绘图
 # fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
 # ax.fill(angles, data1, color='red', alpha=0.25)
 # ax.plot(angles, data1, color='red', label='Data 1')
 # ax.fill(angles, data2, color='blue', alpha=0.25)
 # ax.plot(angles, data2, color='blue', label='Data 2')
 
-# # 设置
 # ax.set_xticks(angles[:-1])
 # ax.set_xticklabels(labels)
 # ax.legend(loc='upper right')
 
-# # 保存图表为 PDF 文件
 # plt.savefig('radar_chart.pdf')
 # print(1)
-# plt.close(fig)  # 关闭图形，释放内存
+# plt.close(fig)  
 import json
 import matplotlib.pyplot as plt
 import numpy as np
