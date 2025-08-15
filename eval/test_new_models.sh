@@ -29,7 +29,14 @@ export log_dir="${root_dir}/RES_OPENSOURCE/"
 #export model_ls=("Qwen/QwQ-32B-Preview" "meta-llama/Llama-3.2-1B-Instruct"  "meta-llama/Llama-3.2-3B-Instruct" "meta-llama/Llama-3.3-70B-Instruct" "mistralai/Mistral-7B-Instruct-v0.1" "mistralai/Mistral-7B-Instruct-v0.2" "mistralai/Mistral-7B-Instruct-v0.3" "mistralai/Mixtral-8x7B-Instruct-v0.1" "deepseek-ai/DeepSeek-V2.5-1210" "tiiuae/Falcon3-10B-Instruct" "recursal/QRWKV6-32B-Instruct-Preview-v0.1")
 
 # export model_ls=("Qwen/Qwen2.5-7B" "Qwen/Qwen2.5-Math-7B" "Qwen/Qwen2.5-Math-7B-Instruct" "meta-llama/Llama-3.1-8B" "Qwen/Qwen3-8B" "Qwen/Qwen3-14B" "Qwen/Qwen3-32B" "microsoft/Phi-4-reasoning" "microsoft/Phi-4-reasoning-plus" "meta-llama/Llama-3.2-1B" "meta-llama/Llama-3.2-3B" "meta-llama/Llama-3.3-70B-Instruct" "meta-llama/Llama-4-Scout-17B-16E-Instruct")
-export model_ls=("meta-llama/Llama-4-Scout-17B-16E-Instruct")
+# complete_1
+
+# export model_ls=("microsoft/phi-1" "microsoft/phi-1_5" "microsoft/phi-2" "microsoft/Phi-3-mini-4k-instruct" "microsoft/Phi-3.5-mini-instruct" "Qwen/Qwen2-7B-Instruct" "Qwen/Qwen2.5-7B-Instruct" "meta-llama/Llama-2-7b-chat-hf" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+# compelete_2
+# export model_ls=("Qwen/Qwen2-7B-Instruct" "Qwen/Qwen2.5-7B-Instruct" "Qwen/Qwen2.5-72B-Instruct" "meta-llama/Llama-2-7b-chat-hf" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
+# complete_3
+export model_ls=("meta-llama/Llama-3.1-70B-Instruct" "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "EleutherAI/gpt-j-6b" "01-ai/Yi-1.5-34B-Chat")
+# export model_ls=("meta-llama/Llama-4-Scout-17B-16E-Instruct")
 # export model_ls=("Qwen/Qwen2.5-7B" "Qwen/Qwen2.5-Math-7B" "Qwen/Qwen2.5-Math-7B-Instruct" "meta-llama/Llama-3.1-8B")
 
 # export task_ls=(
@@ -78,31 +85,35 @@ export model_ls=("meta-llama/Llama-4-Scout-17B-16E-Instruct")
 # )
 
 
+# export task_ls=(
+#     "robench2024b_all_setcsSCP-s" \
+#     "robench2024b_all_setcsSCP-c" \
+#     "robench2024b_all_setcsSCP-p" \
+#     "robench2024b_all_setq-finSCP-s" \
+#     "robench2024b_all_setq-finSCP-c" \
+#     "robench2024b_all_setq-finSCP-p" \
+#     "robench2024b_all_setmathSCP-s" \
+#     "robench2024b_all_setmathSCP-c" \
+#     "robench2024b_all_setmathSCP-p" \
+#     "robench2024b_all_seteessSCP-s" \
+#     "robench2024b_all_seteessSCP-c" \
+#     "robench2024b_all_seteessSCP-p" \
+#     "robench2024b_all_setphysicsSCP-s" \
+#     "robench2024b_all_setphysicsSCP-c" \
+#     "robench2024b_all_setphysicsSCP-p" \
+#     "robench2024b_all_setstatSCP-s" \
+#     "robench2024b_all_setstatSCP-c" \
+#     "robench2024b_all_setstatSCP-p" \
+#     "robench2024b_all_setq-bioSCP-s" \
+#     "robench2024b_all_setq-bioSCP-c" \
+#     "robench2024b_all_setq-bioSCP-p" \
+#     "robench2024b_all_seteconSCP-s" \ 
+#     "robench2024b_all_seteconSCP-c" \
+#     "robench2024b_all_seteconSCP-p" 
+# )
+
 export task_ls=(
-    "robench2024b_all_setcsSCP-s" \
-    "robench2024b_all_setcsSCP-c" \
-    "robench2024b_all_setcsSCP-p" \
-    "robench2024b_all_setq-finSCP-s" \
-    "robench2024b_all_setq-finSCP-c" \
-    "robench2024b_all_setq-finSCP-p" \
-    "robench2024b_all_setmathSCP-s" \
-    "robench2024b_all_setmathSCP-c" \
-    "robench2024b_all_setmathSCP-p" \
-    "robench2024b_all_seteessSCP-s" \
-    "robench2024b_all_seteessSCP-c" \
-    "robench2024b_all_seteessSCP-p" \
-    "robench2024b_all_setphysicsSCP-s" \
-    "robench2024b_all_setphysicsSCP-c" \
-    "robench2024b_all_setphysicsSCP-p" \
-    "robench2024b_all_setstatSCP-s" \
-    "robench2024b_all_setstatSCP-c" \
-    "robench2024b_all_setstatSCP-p" \
-    "robench2024b_all_setq-bioSCP-s" \
-    "robench2024b_all_setq-bioSCP-c" \
-    "robench2024b_all_setq-bioSCP-p" \
-    "robench2024b_all_seteconSCP-s" \ 
-    "robench2024b_all_seteconSCP-c" \
-    "robench2024b_all_seteconSCP-p" 
+    "arxivrollbench2025a" \
 )
 
 
@@ -146,5 +157,5 @@ do
     done
 done
 
-echo "RUNNING test_new_model.sh DONE."
+echo "RUNNING test_model_2025a.sh DONE."
 # 1.overall_public_private_evaluation.sh ends here
