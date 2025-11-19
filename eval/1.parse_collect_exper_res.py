@@ -166,10 +166,25 @@ def main2():
         # "meta-llama/Llama-2-7b-chat-hf",
         # "meta-llama/Llama-2-13b-chat-hf",
         # "Qwen/Qwen2.5-7B-Instruct",
-        "Qwen/Qwen2.5-72B-Instruct",
-        "01-ai/Yi-1.5-34B-Chat",
-        "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
-        "meta-llama/Llama-3.1-70B-Instruct",
+        # "Qwen/Qwen2.5-72B-Instruct",
+        # "01-ai/Yi-1.5-34B-Chat",
+        # "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
+        # "meta-llama/Llama-3.1-70B-Instruct",
+        # "Qwen/Qwen2.5-7B",
+        # "Qwen/Qwen2.5-Math-7B", 
+        # "Qwen/Qwen2.5-Math-7B-Instruct", 
+        # "meta-llama/Llama-3.1-8B", 
+        # "Qwen/Qwen3-8B", 
+        # "Qwen/Qwen3-14B", 
+        # "Qwen/Qwen3-32B", 
+        # "microsoft/Phi-4-reasoning", 
+        # "microsoft/Phi-4-reasoning-plus", 
+        # "meta-llama/Llama-3.2-1B", 
+        # "meta-llama/Llama-3.2-3B", 
+        # "meta-llama/Llama-3.3-70B-Instruct"
+        # "meta-llama/Llama-4-Scout-17B-16E-Instruct"
+        "meta-llama/Llama-3.2-1B-Instruct", 
+        "meta-llama/Llama-3.2-3B-Instruct", 
     ]
     private_benchmark_ls = [
         "robench2024b_all_setcsSCP-s",
@@ -201,7 +216,7 @@ def main2():
     parseCompRes(
         model_ls,
         private_benchmark_ls,
-        result_save_pth="private_overall_res.json",
+        result_save_pth="private_overall_res_new.json",
     )
 
 
@@ -236,27 +251,27 @@ def main3():
         "robench2024b_all_setcsSCP-s",
         "robench2024b_all_setcsSCP-c",
         "robench2024b_all_setcsSCP-p",
-        # "robench2024b_all_setq-finSCP-s",
-        # "robench2024b_all_setq-finSCP-c",
-        # "robench2024b_all_setq-finSCP-p",
-        # "robench2024b_all_setmathSCP-s",
-        # "robench2024b_all_setmathSCP-c",
-        # "robench2024b_all_setmathSCP-p",
-        # "robench2024b_all_seteessSCP-s",
-        # "robench2024b_all_seteessSCP-c",
-        # "robench2024b_all_seteessSCP-p",
-        # "robench2024b_all_setphysicsSCP-s",
-        # "robench2024b_all_setphysicsSCP-c",
-        # "robench2024b_all_setphysicsSCP-p",
-        # "robench2024b_all_setstatSCP-s",
-        # "robench2024b_all_setstatSCP-c",
-        # "robench2024b_all_setstatSCP-p",
-        # "robench2024b_all_setq-bioSCP-s",
-        # "robench2024b_all_setq-bioSCP-c",
-        # "robench2024b_all_setq-bioSCP-p",
-        # "robench2024b_all_seteconSCP-s",
-        # "robench2024b_all_seteconSCP-c",
-        # "robench2024b_all_seteconSCP-p",
+        "robench2024b_all_setq-finSCP-s",
+        "robench2024b_all_setq-finSCP-c",
+        "robench2024b_all_setq-finSCP-p",
+        "robench2024b_all_setmathSCP-s",
+        "robench2024b_all_setmathSCP-c",
+        "robench2024b_all_setmathSCP-p",
+        "robench2024b_all_seteessSCP-s",
+        "robench2024b_all_seteessSCP-c",
+        "robench2024b_all_seteessSCP-p",
+        "robench2024b_all_setphysicsSCP-s",
+        "robench2024b_all_setphysicsSCP-c",
+        "robench2024b_all_setphysicsSCP-p",
+        "robench2024b_all_setstatSCP-s",
+        "robench2024b_all_setstatSCP-c",
+        "robench2024b_all_setstatSCP-p",
+        "robench2024b_all_setq-bioSCP-s",
+        "robench2024b_all_setq-bioSCP-c",
+        "robench2024b_all_setq-bioSCP-p",
+        "robench2024b_all_seteconSCP-s",
+        "robench2024b_all_seteconSCP-c",
+        "robench2024b_all_seteconSCP-p",
     ]
 
     parseCompRes(
@@ -267,17 +282,17 @@ def main3():
 
 def main4():
     model_ls = [
-        # "EleutherAI/gpt-j-6B", "microsoft/Phi-3.5-mini-instruct", "Qwen/Qwen2-7B-Instruct" ,
-        # "meta-llama/Meta-Llama-3-8B",
-        # "meta-llama/Llama-3.1-8B-Instruct",
-        # "microsoft/phi-1",
-        # "microsoft/phi-1_5",
-        # "microsoft/phi-2",
-        # "microsoft/Phi-3-mini-4k-instruct",
-        # "meta-llama/Llama-2-7b-chat-hf",
-        # "meta-llama/Llama-2-13b-chat-hf",
-        # "Qwen/Qwen2.5-7B-Instruct",
         "gpt-4o", "gpt-3.5-turbo", "gpt-4",
+        # "anthropic/claude-3.5-sonnet",
+	# "anthropic/claude-3.7-sonnet",
+	# "anthropic/claude-sonnet-4",
+	# "anthropic/claude-opus-4",
+	# "google/gemini-2.0-flash-001",
+	# "google/gemini-2.5-flash",
+	# "google/gemini-2.5-pro",
+	# "deepseek/deepseek-chat-v3-0324",
+	# "deepseek/deepseek-r1-0528",
+	# "moonshotai/kimi-k2",
     ]
     private_benchmark_ls = [
         "robench2024b_all_setcsSCP-s-50",
@@ -309,6 +324,8 @@ def main4():
     parseCompRes(
         model_ls,
         private_benchmark_ls,
+        parsed_log_dir="./eval/0.2.closeAIs/",
+        # parsed_log_dir="./eval/0721_newcloseAIs/",
         result_save_pth="overall_res_closeAIs.json",
     )
 
@@ -317,7 +334,9 @@ def main4():
 def parseCompRes(
     model_ls,
     dataset_ls,
-    parsed_log_dir="./eval/0.2.closeAIs/",
+    #   ORIGINAL  #
+    # parsed_log_dir="./eval/0.2.closeAIs/",    
+    parsed_log_dir="./eval/RES_OPENSOURCE/",
     result_save_pth="overall_res_closeAIs.json",
 ):
 
@@ -392,4 +411,5 @@ def parseCompRes(
 if __name__ == "__main__":
     # main()
     # main2()
-    main4()
+    main2()
+    # main4()

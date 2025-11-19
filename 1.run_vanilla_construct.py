@@ -157,7 +157,7 @@ def main_old():
 
 
 def main():
-    directory = "./robench2024b_all/"
+    directory = "./robench2025a_test_all_category/"
     is_html = True
     files = os.listdir(directory)
     for f in files:
@@ -216,7 +216,8 @@ def main():
         # break
 
 def mainSubset():
-    directory = "./robench2024b_all/"
+    # directory = "./robench2024b_all/"
+    directory = "./robench2025a_test_all_category/"
     is_html = True
     files = os.listdir(directory)
     for f in files:
@@ -282,4 +283,6 @@ if __name__ == "__main__":
     # main_old()
     # test_Latex()
     # test_SCP_S()
-    main()
+
+    # main()
+    mainSubset()

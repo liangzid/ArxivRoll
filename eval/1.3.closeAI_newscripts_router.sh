@@ -19,6 +19,10 @@ export log_dir="${root_dir}/0721_newcloseAIs/"
 export device="1"
 
 export model_ls=(
+	"openai/gpt-4o" \
+	"openai/gpt-3.5-turbo" \
+	"openai/gpt-4" \
+	"openai/gpt-5" \
     "anthropic/claude-3.5-sonnet" \
 	"anthropic/claude-3.7-sonnet" \
 	"anthropic/claude-sonnet-4" \
@@ -42,30 +46,7 @@ export model_ls=(
 #  )
 
 export task_ls=( 
- "robench2024b_all_setcsSCP-s-50" \
-  "robench2024b_all_setcsSCP-c-50" \
-  "robench2024b_all_setcsSCP-p-50" \
-  "robench2024b_all_setq-finSCP-s-50" \
-  "robench2024b_all_setq-finSCP-c-50" \
-  "robench2024b_all_setq-finSCP-p-50" \
-  "robench2024b_all_setmathSCP-s-50" \
-  "robench2024b_all_setmathSCP-c-50" \
-  "robench2024b_all_setmathSCP-p-50" \
- "robench2024b_all_seteessSCP-s-50" \
- "robench2024b_all_seteessSCP-c-50" \
- "robench2024b_all_seteessSCP-p-50" \
- "robench2024b_all_setphysicsSCP-s-50" \
- "robench2024b_all_setphysicsSCP-c-50" \
- "robench2024b_all_setphysicsSCP-p-50" \
- "robench2024b_all_setstatSCP-s-50" 
- "robench2024b_all_setstatSCP-c-50" \
- "robench2024b_all_setstatSCP-p-50" \
- "robench2024b_all_setq-bioSCP-s-50" \
- "robench2024b_all_setq-bioSCP-c-50" \
- "robench2024b_all_setq-bioSCP-p-50" \
- "robench2024b_all_seteconSCP-s-50" \
- "robench2024b_all_seteconSCP-c-50" \
-  "robench2024b_all_seteconSCP-p-50"
+    "arxivrollbench2025a-50" \
  )
 
 # export task_ls=("mmlu_pro_computer_science")

@@ -1,15 +1,15 @@
-# 🚀 ArxivBench
+# 🚀 ArxivRoll
 *“Fresh from ArXiv, served once, and never reheated.”*
 
-> 📌 TL;DR: ArxivBench tells you **“How much of your score is real, and how much is cheating?”**  
+> 📌 TL;DR: ArxivRoll tells you **“How much of your score is real, and how much is cheating?”**  
 
 ---
 
-## 1. 📊 What is ArxivBench?
+## 1. 📊 What is ArxivRoll?
 
-ArxivBench is a **dynamic, one-time-pad-inspired evaluation framework** 🛡️ that **audits** how much Large Language Models (LLMs) **over-estimate** their true abilities on public benchmarks.  
+ArxivRoll is a **dynamic, one-time-pad-inspired evaluation framework** 🛡️ that **audits** how much Large Language Models (LLMs) **over-estimate** their true abilities on public benchmarks.  
 
-### ⚠️ Key Problems ArxivBench Tackles  
+### ⚠️ Key Problems ArxivRoll Tackles  
 - **📥 Data contamination**  
   Public benchmarks (MMLU, GSM8K, etc.) often sneak into pre-training data → inflated scores.  
 - **🎯 Biased overtraining**  
@@ -19,10 +19,14 @@ ArxivBench is a **dynamic, one-time-pad-inspired evaluation framework** 🛡️ 
 
 ---
 
-### 🧪 How ArxivBench Works  
+### What is ArxivRollBench?
+
+ArxivRollBench is the private benchmarks built by ArxivRoll.
+
+### 🧪 How ArxivRollBench Works  
 
 1. **🌱 Fresh Test Cases**  
-   Every 6 months we scrape **latest ArXiv preprints** (Apr–Sep 2024 → ArxivBench-2024b).  
+   Every 6 months we scrape **latest ArXiv preprints** (Apr–Sep 2024 → ArxivRollBench-2024b).  
    > 🏷️ Domains: CS, Math, Physics, Bio, Econ, Finance, Statistics, EE.
 
 2. **🎲 SCP Tasks**  
@@ -48,41 +52,18 @@ ArxivBench is a **dynamic, one-time-pad-inspired evaluation framework** 🛡️ 
 
 The most easy way is to use `llm-eval-harness`
 
-Just install `lm-eval` from [here](https://github.com/liangzid/harness-4-arxivbench),
+Just install `lm-eval` from [here](https://github.com/liangzid/harness-4-arxivrollbench),
 and then evaluate a huggingface model with:
 
 ```sh
 
 export task_ls=(
-    "arxivbench2024b_all_setcsSCP-s" \
-    "arxivbench2024b_all_setcsSCP-c" \
-    "arxivbench2024b_all_setcsSCP-p" \
-    "arxivbench2024b_all_setq-finSCP-s" \
-    "arxivbench2024b_all_setq-finSCP-c" \
-    "arxivbench2024b_all_setq-finSCP-p" \
-    "arxivbench2024b_all_setmathSCP-s" \
-    "arxivbench2024b_all_setmathSCP-c" \
-    "arxivbench2024b_all_setmathSCP-p" \
-    "arxivbench2024b_all_seteessSCP-s" \
-    "arxivbench2024b_all_seteessSCP-c" \
-    "arxivbench2024b_all_seteessSCP-p" \
-    "arxivbench2024b_all_setphysicsSCP-s" \
-    "arxivbench2024b_all_setphysicsSCP-c" \
-    "arxivbench2024b_all_setphysicsSCP-p" \
-    "arxivbench2024b_all_setstatSCP-s" \
-    "arxivbench2024b_all_setstatSCP-c" \
-    "arxivbench2024b_all_setstatSCP-p" \
-    "arxivbench2024b_all_setq-bioSCP-s" \
-    "arxivbench2024b_all_setq-bioSCP-c" \
-    "arxivbench2024b_all_setq-bioSCP-p" \
-    "arxivbench2024b_all_seteconSCP-s" \ 
-    "arxivbench2024b_all_seteconSCP-c" \
-    "arxivbench2024b_all_seteconSCP-p" 
+  "arxivrollbench2024b"\
 )
 	lm_eval\
 	    --model hf\
 	    --model_args pretrained=your-model-name,parallelize=True\
-	    --tasks any-arxivbench-task\
+	    --tasks any-arxiv-roll-bench-task\
 	    --verbosity DEBUG\
 	    --log_samples\
 	    --output_path your-log-path
@@ -112,7 +93,7 @@ conda activate robench
 
 #### Clone & editable install
 ```bash
-git clone https://github.com/XXXXXX/harness-4-robench/tree/robench
+git clone https://github.com/XXXXXX/XXXXXXXXXXXXXXXXXXX
 cd harness-4-robench
 pip install -e .
 ```
