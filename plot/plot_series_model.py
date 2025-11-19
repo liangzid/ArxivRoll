@@ -146,7 +146,7 @@ def scatters_series_model():
     fig, axs = plt.subplots(1, 1, figsize=(5.5, 4.3))
     fig.subplots_adjust(wspace=0.01, hspace=0.5)
 
-    fs = 13
+    fs = 15
     axs.grid(True)
     compact_dict = OrderedDict({})
 
@@ -204,7 +204,7 @@ def scatters_series_model():
 
     font1 = {
         "weight": "normal",
-        "size": 9,
+        "size": 13,
     }
     plt.legend(
         # loc=(0.02, 0.03),
