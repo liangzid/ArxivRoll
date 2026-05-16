@@ -304,6 +304,45 @@ def queryArxiv(
     return ids
 
 
+def arxivIdMonth(id_: str):
+    """
+    Return YYYY-MM inferred from a modern arXiv id.
+
+    The OAI-PMH from/until fields can return records that were updated in the
+    date window, not only newly submitted papers. For freshness we therefore
+    filter by the id prefix: 2509.x means first submission month 2025-09.
+    Legacy ids such as cs/0412059 return None and are excluded from new rounds.
+    """
+    id_ = id_.split("v")[0]
+    parts = id_.split(".")
+    if len(parts) < 2 or len(parts[0]) != 4 or not parts[0].isdigit():
+        return None
+    yy = int(parts[0][:2])
+    mm = int(parts[0][2:])
+    if not 1 <= mm <= 12:
+        return None
+    year = 2000 + yy
+    return f"{year:04d}-{mm:02d}"
+
+
+def filterIdsBySubmissionMonth(id_ls, expected_month, set_spec=None):
+    kept = []
+    dropped = []
+    for id_ in id_ls:
+        if arxivIdMonth(id_) == expected_month:
+            kept.append(id_)
+        else:
+            dropped.append(id_)
+    prefix = f"[{set_spec}] " if set_spec else ""
+    print(
+        f"{prefix}Submission-month filter for {expected_month}: "
+        f"kept {len(kept)} / {len(id_ls)} ids; dropped {len(dropped)} updated/legacy ids."
+    )
+    if dropped:
+        print(f"{prefix}Dropped examples: {dropped[:10]}")
+    return kept
+
+
 def downloadArxivViaIds(id_ls, save_path="./recent_save_articles.json"):
     ua = UserAgent()
     res_dict = {
@@ -503,8 +542,7 @@ def main3_allCategorys6Months():
         "q-fin",
         "stat",
     ]
-    # save_dir = "./robench2024b_test_all_category/"
-    save_dir = "./robench2025a_test_all_category/"
+    save_dir = "./robench2026a_test_all_category/"
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     else:
@@ -518,19 +556,26 @@ def main3_allCategorys6Months():
         #         until_date=f"2024-0{i}-30")
         #     ids.extend(temp_ids)
         #     termOfUse()
-        year_month_ls=[
-            "2025-01",
-            "2025-02",
-            "2025-03",
-            "2025-04",
-            "2025-05",
-            "2025-06",
-            ]
-        for ym in year_month_ls:
+        date_ranges = [
+            ("2025-09-01", "2025-09-30"),
+            ("2025-10-01", "2025-10-31"),
+            ("2025-11-01", "2025-11-30"),
+            ("2025-12-01", "2025-12-31"),
+            ("2026-01-01", "2026-01-31"),
+            ("2026-02-01", "2026-02-28"),
+            ("2026-03-01", "2026-03-31"),
+            ("2026-04-01", "2026-04-30"),
+        ]
+        for from_date, until_date in date_ranges:
             temp_ids = queryArxiv(
                 set_spec=set_spec,
-                from_date=f"{ym}-01",
-                until_date=f"{ym}-30")
+                from_date=from_date,
+                until_date=until_date)
+            temp_ids = filterIdsBySubmissionMonth(
+                temp_ids,
+                expected_month=from_date[:7],
+                set_spec=set_spec,
+            )
             ids.extend(temp_ids)
             termOfUse()
         save_pth = f"{save_dir}recent6months_html_set{set_spec}.json"
