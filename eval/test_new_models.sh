@@ -35,7 +35,7 @@ export log_dir="${root_dir}/RES_OPENSOURCE/"
 # compelete_2
 # export model_ls=("Qwen/Qwen2-7B-Instruct" "Qwen/Qwen2.5-7B-Instruct" "Qwen/Qwen2.5-72B-Instruct" "meta-llama/Llama-2-7b-chat-hf" "meta-llama/Meta-Llama-3-8B" "meta-llama/Llama-3.1-8B-Instruct")
 # complete_3
-export model_ls=("meta-llama/Llama-3.1-70B-Instruct" "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF" "EleutherAI/gpt-j-6b" "01-ai/Yi-1.5-34B-Chat")
+export model_ls=("EleutherAI/gpt-j-6b", "01-ai/Yi-1.5-34B-Chat")
 # export model_ls=("meta-llama/Llama-4-Scout-17B-16E-Instruct")
 # export model_ls=("Qwen/Qwen2.5-7B" "Qwen/Qwen2.5-Math-7B" "Qwen/Qwen2.5-Math-7B-Instruct" "meta-llama/Llama-3.1-8B")
 

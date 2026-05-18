@@ -19,17 +19,18 @@ export log_dir="${root_dir}/0721_newcloseAIs/"
 export device="1"
 
 export model_ls=(
-	"openai/gpt-4o" \
+	# "openai/gpt-4o" \
 	"openai/gpt-3.5-turbo" \
-	"openai/gpt-4" \
+	# "openai/gpt-4" \
 	"openai/gpt-5" \
-    "anthropic/claude-3.5-sonnet" \
-	"anthropic/claude-3.7-sonnet" \
-	"anthropic/claude-sonnet-4" \
-	"anthropic/claude-opus-4" \
+    # "anthropic/claude-3.5-sonnet" \
+	# "anthropic/claude-3.7-sonnet" \
+	# "anthropic/claude-sonnet-4" \
+	# "anthropic/claude-opus-4" \
 	"google/gemini-2.0-flash-001" \
 	"google/gemini-2.5-flash" \
 	"google/gemini-2.5-pro" \
+	"deepseek/deepseek-chat-v3.1"\
 	"deepseek/deepseek-chat-v3-0324" \
 	"deepseek/deepseek-r1-0528" \
 	"moonshotai/kimi-k2" \
