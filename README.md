@@ -63,6 +63,41 @@ Or install with pip:
 pip install -r re.txt
 ```
 
+## Inspect AI Evaluation
+
+This repository also provides an Inspect AI task for running public
+ArxivRollBench releases:
+
+```bash
+pip install -e .
+inspect eval arxivrollbench_inspect.py@arxivrollbench --model openai/gpt-5-nano
+```
+
+The default Inspect task evaluates the compact `2026a` split across all
+domains and SCP task types. You can select the release, domain, task type, and
+compact/full split with task parameters:
+
+```bash
+inspect eval arxivrollbench_inspect.py@arxivrollbench \
+  --model openai/gpt-5-nano \
+  -T release=2026a \
+  -T domain=cs \
+  -T task_type=s \
+  -T split=compact
+```
+
+Supported task parameters:
+
+- `release`: `2024b`, `2025a`, `2026a`, or `all`
+- `domain`: `cs`, `q_fin`/`q-fin`, `math`, `physics`, `stat`,
+  `q_bio`/`q-bio`, `econ`, `eess`, or `all`
+- `task_type`: `s` for sequencing, `c` for cloze, `p` for prediction, or
+  `all`
+- `split`: `compact` for the lightweight `-50` datasets, or `full`
+
+The Inspect task loads the Hugging Face datasets with explicit pinned
+revisions for reproducibility.
+
 You also need the evaluation harness that defines the ArxivRollBench tasks:
 
 ```bash
@@ -692,4 +727,3 @@ PY
 11. Aggregate to `private_overall_res_new_2026a.json`.
 12. Convert and copy to `~/arxivbenchleaderboard/public/2026a.json`.
 13. Build the leaderboard and check the new tab.
-
